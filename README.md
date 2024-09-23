@@ -1,0 +1,2 @@
+# Unity Group Project 
+To run this project, `pull` this repository (or `clone` it if you are doing this for the first time), then open Unity Hub, browse to the project folder `unity-group-project/Unity Group Project`, and open it.
