@@ -8,6 +8,6 @@ To run this project, first `pull` this repository (or `clone` it if you are doin
 To commit to `README.md`, do the instructions above and `pull` the repository, make changes, and run `git commit -m "README" README.md` then `git push`.
 
 ## Game Progress (9/24/24 - 9/26/24)
-- Made a grid 
-- Made a player 
-- Made player movement 
+- **(9/24/24)** Made a grid 
+- **(9/25/24)** Made a player 
+- **(9/26/24)** Made player movement 
