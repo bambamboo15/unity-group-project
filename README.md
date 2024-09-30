@@ -7,6 +7,11 @@ To run this project, first `pull` this repository (or `clone` it if you are doin
 
 To commit to `README.md`, do the instructions above and `pull` the repository, make changes, and run `git commit -m "README" README.md` then `git push`.
 
+## Role-specific instructions 
+To **test the game**, you should `pull` the repository, build the project to a .exe, and test it.
+
+To **design a map**, [to be determined]
+
 ## Game Progress (9/24/24 - 9/26/24)
 - **(9/24/24)** Made a grid 
 - **(9/25/24)** Made a player 
