@@ -18,3 +18,5 @@ To **design a map**, [to be determined]
 - **(9/26/24)** Made player movement 
 - **(10/01/24)** Revamped tilemaps and made walls to work 
 - **(10/01/24)** Made snake design and some core snake tile functionality 
+
+![alt text](image.png)
