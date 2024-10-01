@@ -11,23 +11,23 @@ public class Player : MonoBehaviour {
     public float delay;
 
     // How long the player takes to move from square to square 
-    [Rename("Move Delay")] public float move_delay;
+    public float moveDelay;
 
     // Private variables 
     private bool moving;
-    private float delay_timer;
-    private float move_delay_timer;
+    private float delayTimer;
+    private float moveDelayTimer;
     private Vector3 dir;
-    private Vector3 orig_pos;
-    private Vector3 dest_pos;
-    private GridLayout grid_layout;
+    private Vector3 origPos;
+    private Vector3 destPos;
+    private GridLayout gridLayout;
 
     // Only runs on game startup 
     void Start() {
         moving = false;
-        delay_timer = delay;
+        delayTimer = delay;
         dir = new Vector3(1.0f, 0.0f, 0.0f);
-        grid_layout = grid.GetComponent<GridLayout>();
+        gridLayout = grid.GetComponent<GridLayout>();
     }
 
     // Runs every frame 
@@ -56,35 +56,35 @@ public class Player : MonoBehaviour {
         //> If the updated delay timer is out, the player is not moving,
         //> and the player pressed a key after the delay timer went off,
         //> then enter the move sequence 
-        delay_timer -= Time.deltaTime;
-        if (!moving && delay_timer < 0.0f && ANY) {
+        delayTimer -= Time.deltaTime;
+        if (!moving && delayTimer < 0.0f && ANY) {
             //> Now, we first need to check if there is a wall tile to where 
             //> we are going.
-            Vector3 next_pos = transform.position +
+            Vector3 nextPos = transform.position +
                 Vector3.Scale(dir, new Vector3(1.0f, 1.0f, 0.0f) + grid.cellGap);
-            Vector3Int next_tile_pos = grid_layout.WorldToCell(next_pos);
+            Vector3Int nextTilePos = gridLayout.WorldToCell(nextPos);
             
-            if (!walls.HasTile(next_tile_pos)) {
-                move_delay_timer = move_delay;
+            if (!walls.HasTile(nextTilePos)) {
+                moveDelayTimer = moveDelay;
                 moving = true;
-                orig_pos = transform.position;
-                dest_pos = orig_pos + Vector3.Scale(dir, new Vector3(1.0f, 1.0f, 0.0f) + grid.cellGap);
+                origPos = transform.position;
+                destPos = origPos + Vector3.Scale(dir, new Vector3(1.0f, 1.0f, 0.0f) + grid.cellGap);
             }
         }
 
         //> If the player is moving, let the move delay timer count down,
         //> and lerp the player position 
         if (moving) {
-            move_delay_timer -= Time.deltaTime;
-            float dt = 1.0f - (move_delay_timer / move_delay);
-            transform.position = Vector3.Lerp(orig_pos, dest_pos, dt);
+            moveDelayTimer -= Time.deltaTime;
+            float dt = 1.0f - (moveDelayTimer / moveDelay);
+            transform.position = Vector3.Lerp(origPos, destPos, dt);
 
             //> If the move sequence is over, snap the player to the 
             //> destination position, stop moving, and start delaying 
-            if (move_delay_timer < 0.0f) {
-                transform.position = dest_pos;
+            if (moveDelayTimer < 0.0f) {
+                transform.position = destPos;
                 moving = false;
-                delay_timer = delay;
+                delayTimer = delay;
             }
         }
     }

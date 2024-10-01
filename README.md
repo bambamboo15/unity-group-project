@@ -16,5 +16,5 @@ To **design a map**, [to be determined]
 - **(9/24/24)** Made a grid 
 - **(9/25/24)** Made a player 
 - **(9/26/24)** Made player movement 
-- **(10/01/24)** Revamped tilemaps 
-- **(10/01/24)** Made walls to work 
+- **(10/01/24)** Revamped tilemaps and made walls to work 
+- **(10/01/24)** Made snake design and some core snake tile functionality 
