@@ -12,7 +12,9 @@ To **test the game**, you should `pull` the repository, build the project to a .
 
 To **design a map**, [to be determined]
 
-## Game Progress (9/24/24 - 9/26/24)
+## Game Progress 
 - **(9/24/24)** Made a grid 
 - **(9/25/24)** Made a player 
 - **(9/26/24)** Made player movement 
+- **(10/01/24)** Revamped tilemaps 
+- **(10/01/24)** Made walls to work 
