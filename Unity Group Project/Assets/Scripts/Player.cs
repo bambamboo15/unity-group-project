@@ -3,6 +3,7 @@ using UnityEngine.Tilemaps;
 
 public class Player : MonoBehaviour {
     // Public object variables 
+    public GameObject snakes;
     public Tilemap background;
     public Tilemap walls;
     public Grid grid;
@@ -28,6 +29,15 @@ public class Player : MonoBehaviour {
         delayTimer = delay;
         dir = new Vector3(1.0f, 0.0f, 0.0f);
         gridLayout = grid.GetComponent<GridLayout>();
+    }
+
+    // Is this cell position blocked by a snake or wall tile?
+    public bool isBlocked(Vector3Int pos) {
+        for (int i = 0; i != snakes.transform.childCount; ++i) {
+            if (snakes.transform.GetChild(i).GetComponent<Tilemap>().HasTile(pos))
+                return true;
+        }
+        return walls.HasTile(pos);
     }
 
     // Runs every frame 
@@ -58,13 +68,13 @@ public class Player : MonoBehaviour {
         //> then enter the move sequence 
         delayTimer -= Time.deltaTime;
         if (!moving && delayTimer < 0.0f && ANY) {
-            //> Now, we first need to check if there is a wall tile to where 
-            //> we are going.
+            //> Get the tile position of where we are going to 
             Vector3 nextPos = transform.position +
                 Vector3.Scale(dir, new Vector3(1.0f, 1.0f, 0.0f) + grid.cellGap);
             Vector3Int nextTilePos = gridLayout.WorldToCell(nextPos);
             
-            if (!walls.HasTile(nextTilePos)) {
+            //> If we are not blocked, then do move 
+            if (!isBlocked(nextTilePos)) {
                 moveDelayTimer = moveDelay;
                 moving = true;
                 origPos = transform.position;
