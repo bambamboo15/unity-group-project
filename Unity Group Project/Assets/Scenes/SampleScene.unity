@@ -1299,6 +1299,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 905235973}
   grid: {fileID: 1925998573}
+  snakeHeadTile: {fileID: 11400000, guid: 9934bd6391f3d564db0da4bdc54f6dab, type: 2}
+  snakeBodyTile: {fileID: 11400000, guid: aab0a415f21b65b459e50da5a2bbeddf, type: 2}
 --- !u!1 &905235973
 GameObject:
   m_ObjectHideFlags: 0

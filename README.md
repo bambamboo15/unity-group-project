@@ -19,5 +19,7 @@ To **design a map**, [to be determined]
 - **(10/01/24)** Revamped tilemaps and made walls to work 
 - **(10/01/24)** Made snake design and some core snake tile functionality 
 - **(10/02/24), map designer** Added a room to the map as a test 
+- **(10/04/24)** Made snake loading functionality 
+- **(10/06/24)** Made snake moving functionality 
 
 ![alt text](image.png)
