@@ -96,10 +96,9 @@ public class Snake : MonoBehaviour {
     // Is the square disallowed from the snake?
     // TODO: Avoid code duplication from Player 
     public bool isBlocked(Vector3Int pos) {
-        for (int i = 0; i != transform.parent.childCount; ++i) {
+        for (int i = 0; i != transform.parent.childCount; ++i)
             if (transform.parent.GetChild(i).GetComponent<Tilemap>().HasTile(pos))
                 return true;
-        }
         return walls.HasTile(pos);
     }
 
@@ -194,6 +193,7 @@ public class Snake : MonoBehaviour {
                 body.AddFirst(right);
                 last = pos;
                 pos = right;
+                continue;
             }
             return;
         }

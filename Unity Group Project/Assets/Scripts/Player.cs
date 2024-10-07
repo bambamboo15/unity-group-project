@@ -32,10 +32,9 @@ public class Player : MonoBehaviour {
 
     // Is this cell position blocked by a snake or wall tile?
     public bool isBlocked(Vector3Int pos) {
-        for (int i = 0; i != snakes.transform.childCount; ++i) {
+        for (int i = 0; i != snakes.transform.childCount; ++i)
             if (snakes.transform.GetChild(i).GetComponent<Tilemap>().HasTile(pos))
                 return true;
-        }
         return walls.HasTile(pos);
     }
 
