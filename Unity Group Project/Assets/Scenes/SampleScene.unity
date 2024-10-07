@@ -1301,7 +1301,8 @@ MonoBehaviour:
   grid: {fileID: 1925998573}
   snakeHeadTile: {fileID: 11400000, guid: 9934bd6391f3d564db0da4bdc54f6dab, type: 2}
   snakeBodyTile: {fileID: 11400000, guid: aab0a415f21b65b459e50da5a2bbeddf, type: 2}
-  _move: 0
+  walls: {fileID: 637468720}
+  moveInterval: 1
 --- !u!1 &905235973
 GameObject:
   m_ObjectHideFlags: 0
@@ -1401,7 +1402,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   snakes: {fileID: 1304513410}
-  background: {fileID: 1816737386}
   walls: {fileID: 637468720}
   grid: {fileID: 1925998573}
   delay: 0.15

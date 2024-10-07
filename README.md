@@ -21,5 +21,6 @@ To **design a map**, [to be determined]
 - **(10/02/24), map designer** Added a room to the map as a test 
 - **(10/04/24)** Made snake loading functionality 
 - **(10/06/24)** Made snake moving functionality 
+- **(10/06/24)** Made snake chase player in an easy manner 
 
 ![alt text](./image.png)

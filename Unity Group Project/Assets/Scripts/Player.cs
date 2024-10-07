@@ -4,7 +4,6 @@ using UnityEngine.Tilemaps;
 public class Player : MonoBehaviour {
     // Public object variables 
     public GameObject snakes;
-    public Tilemap background;
     public Tilemap walls;
     public Grid grid;
 

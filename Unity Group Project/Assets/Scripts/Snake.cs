@@ -8,20 +8,18 @@ public class Snake : MonoBehaviour {
     // be any GameObject because only the position is tracked.
     public GameObject player;
 
-    // The grid for layout purposes.
+    // The grid for layout purposes 
     public Grid grid;
 
-    // The snake tiles.
+    // The snake tiles 
     public SnakeHeadTile snakeHeadTile;
     public SnakeBodyTile snakeBodyTile;
 
-    public bool _move;
-    void Update() {
-        if (_move) {
-            _move = false;
-            Move(Vector3Int.right);
-        }
-    }
+    // Other required tilemaps 
+    public Tilemap walls;
+
+    // Other configurations 
+    public float moveInterval;
 
     // Snake body data structure. Essentially what this is are all 
     // the tiles of the snake. The last element of this "body" list 
@@ -30,12 +28,79 @@ public class Snake : MonoBehaviour {
     private LinkedList<Vector3Int> body = new LinkedList<Vector3Int>();
 
     // Private variables 
+    private GridLayout gridLayout;
     private Tilemap tilemap;
+    private float moveIntervalTimer;
 
     // Initialize the internal data structure based on prepared tiles.
     void Start() {
         tilemap = GetComponent<Tilemap>();
+        gridLayout = grid.GetComponent<GridLayout>();
         PreemptivelyFindSnakeBodyAppend();
+    }
+
+    // What the snake does every frame 
+    void Update() {
+        moveIntervalTimer -= Time.deltaTime;
+        if (moveIntervalTimer <= 0.0f) {
+            moveIntervalTimer = moveInterval;
+            Move(CalculateBestDirection());
+        }
+    }
+
+    // Calculate the "best direction" of the snake. It is what the snake 
+    // thinks is the optimal direction to take towards the player. Of course,
+    // it will not be optimal, but we do not want the game to be impossible.
+    //
+    // If the snake is somehow "trapped", it will return a (0, 0, 0)
+    public Vector3Int CalculateBestDirection() {
+        Vector3Int  head = Head(), output = Vector3Int.zero,
+                    playerPos = gridLayout.WorldToCell(player.transform.position);
+        float minDistance = float.PositiveInfinity;
+
+        if (!isBlocked(head + Vector3Int.up)) {
+            float distance = Vector3Int.Distance(head + Vector3Int.up, playerPos);
+            if (distance < minDistance) {
+                minDistance = distance;
+                output = Vector3Int.up;
+            }
+        }
+
+        if (!isBlocked(head + Vector3Int.down)) {
+            float distance = Vector3Int.Distance(head + Vector3Int.down, playerPos);
+            if (distance < minDistance) {
+                minDistance = distance;
+                output = Vector3Int.down;
+            }
+        }
+
+        if (!isBlocked(head + Vector3Int.left)) {
+            float distance = Vector3Int.Distance(head + Vector3Int.left, playerPos);
+            if (distance < minDistance) {
+                minDistance = distance;
+                output = Vector3Int.left;
+            }
+        }
+
+        if (!isBlocked(head + Vector3Int.right)) {
+            float distance = Vector3Int.Distance(head + Vector3Int.right, playerPos);
+            if (distance < minDistance) {
+                minDistance = distance;
+                output = Vector3Int.right;
+            }
+        }
+
+        return output;
+    }
+
+    // Is the square disallowed from the snake?
+    // TODO: Avoid code duplication from Player 
+    public bool isBlocked(Vector3Int pos) {
+        for (int i = 0; i != transform.parent.childCount; ++i) {
+            if (transform.parent.GetChild(i).GetComponent<Tilemap>().HasTile(pos))
+                return true;
+        }
+        return walls.HasTile(pos);
     }
 
     // Move the snake in a certain direction!
