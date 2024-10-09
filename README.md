@@ -22,5 +22,6 @@ To **design a map**, [to be determined]
 - **(10/04/24)** Made snake loading functionality 
 - **(10/06/24)** Made snake moving functionality 
 - **(10/06/24)** Made snake chase player in an easy manner 
+- **(10/09/24)** Made title screen template 
 
 ![alt text](./image.png)
