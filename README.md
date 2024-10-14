@@ -8,7 +8,7 @@ To run this project, first `pull` this repository (or `clone` it if you are doin
 To commit to `README.md`, do the instructions above and `pull` the repository, make changes, and run `git commit -m "README" README.md` then `git push`.
 
 ## Role-specific instructions 
-To **test the game**, you should `pull` the repository, build the project to a .exe, and test it.
+To **test the game**, you should `pull` the repository, build the project to a .exe, and test it (or play it in Unity).
 
 To **design a map**, [to be determined]
 
