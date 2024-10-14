@@ -12,6 +12,13 @@ To **test the game**, you should `pull` the repository, build the project to a .
 
 To **design a map**, [to be determined]
 
+For the **pixel art designer**, here are some of the 16x16 pixel art sprites that we need (make it kind of simple, similar to the ones that we have):
+- Snake body sprite 
+- Snake head sprite 
+- Apple sprite 
+- Potential item designs 
+- Tile designs (optional)
+
 ## Game Progress 
 - **(9/24/24)** Made a grid 
 - **(9/25/24)** Made a player 
