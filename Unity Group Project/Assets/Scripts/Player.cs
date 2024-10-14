@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -13,6 +14,9 @@ public class Player : MonoBehaviour {
     // How long the player takes to move from square to square 
     public float moveDelay;
 
+    // All action tiles 
+    public List<Action> actionTiles = new List<Action>();
+
     // Private variables 
     private bool moving;
     private float delayTimer;
@@ -22,8 +26,12 @@ public class Player : MonoBehaviour {
     private Vector3 destPos;
     private GridLayout gridLayout;
 
+    // Gold collected 
+    public int gold;
+
     // Only runs on game startup 
     void Start() {
+        gold = 0;
         moving = false;
         delayTimer = delay;
         dir = new Vector3(1.0f, 0.0f, 0.0f);
@@ -93,6 +101,14 @@ public class Player : MonoBehaviour {
                 transform.position = destPos;
                 moving = false;
                 delayTimer = delay;
+
+                //> For all action tiles, call their Triggered methods 
+                for (int i = 0; i != actionTiles.Count; ++i) {
+                    Action tile = actionTiles[i];
+                    if (gridLayout.WorldToCell(tile.transform.position) == gridLayout.WorldToCell(transform.position)) {
+                        tile.Triggered();
+                    }
+                }
             }
         }
     }
