@@ -6,6 +6,6 @@ using UnityEngine;
 // classic mode.
 public class Gold : Action {
     public override void Triggered() {
-        Debug.Log("gold collected");
+        ++player.gold;
     }
 }

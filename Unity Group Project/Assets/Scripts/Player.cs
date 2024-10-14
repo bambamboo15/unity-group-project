@@ -26,12 +26,14 @@ public class Player : MonoBehaviour {
     private Vector3 destPos;
     private GridLayout gridLayout;
 
-    // Gold collected 
+    // Gold collected and max gold collected possible 
     public int gold;
+    public int maxGold;
 
     // Only runs on game startup 
     void Start() {
         gold = 0;
+        maxGold = 15;
         moving = false;
         delayTimer = delay;
         dir = new Vector3(1.0f, 0.0f, 0.0f);

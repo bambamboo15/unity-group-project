@@ -1496,6 +1496,7 @@ MonoBehaviour:
   moveDelay: 0.2
   actionTiles: []
   gold: 0
+  maxGold: 0
 --- !u!1 &1068648466
 GameObject:
   m_ObjectHideFlags: 0
@@ -4492,8 +4493,9 @@ GameObject:
   - component: {fileID: 1970056817}
   - component: {fileID: 1970056819}
   - component: {fileID: 1970056818}
+  - component: {fileID: 1970056820}
   m_Layer: 5
-  m_Name: Gold Counter
+  m_Name: GoldCounter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4615,6 +4617,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1970056816}
   m_CullTransparentMesh: 1
+--- !u!114 &1970056820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1970056816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c39c92d5565ee0418a8f6dc250b417a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 905235976}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -133,6 +133,7 @@ GameObject:
   - component: {fileID: 27894342}
   - component: {fileID: 27894345}
   - component: {fileID: 27894344}
+  - component: {fileID: 27894346}
   - component: {fileID: 27894343}
   m_Layer: 0
   m_Name: Snake
@@ -389,6 +390,19 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &27894346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 27894341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5340b1d536a1e684890bdd7694e391fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  restart_bounds: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1325,8 +1339,6 @@ Tilemap:
   m_TileAssetArray:
   - m_RefCount: 68
     m_Data: {fileID: 11400000, guid: 5bd8f1433052d0c419194ad5ef39236a, type: 2}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
   m_TileSpriteArray:
   - m_RefCount: 68
     m_Data: {fileID: 7482667652216324306, guid: 2c8a0f7ed2f196544b940287b919eac5, type: 3}
@@ -1352,8 +1364,6 @@ Tilemap:
   m_TileColorArray:
   - m_RefCount: 68
     m_Data: {r: 1, g: 0, b: 0, a: 0.5921569}
-  - m_RefCount: 0
-    m_Data: {r: 3.4906e-41, g: 3.4906e-41, b: 3.4906e-41, a: 3.4906e-41}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -4264,8 +4274,6 @@ Tilemap:
   m_TileAssetArray:
   - m_RefCount: 251
     m_Data: {fileID: 11400000, guid: 577a25557a95028448e983073d350b38, type: 2}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
   m_TileSpriteArray:
   - m_RefCount: 251
     m_Data: {fileID: 7482667652216324306, guid: 2c8a0f7ed2f196544b940287b919eac5, type: 3}
@@ -4291,8 +4299,6 @@ Tilemap:
   m_TileColorArray:
   - m_RefCount: 251
     m_Data: {r: 0, g: 0, b: 0, a: 1}
-  - m_RefCount: 0
-    m_Data: {r: 3.4856e-41, g: 3.4856e-41, b: 3.4856e-41, a: 3.4856e-41}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
