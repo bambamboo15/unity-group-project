@@ -30,5 +30,7 @@ For the **pixel art designer**, here are some of the 16x16 pixel art sprites tha
 - **(10/06/24)** Made snake moving functionality 
 - **(10/06/24)** Made snake chase player in an easy manner 
 - **(10/09/24)** Simple title screen prototype with scene switching 
+- **(10/14/24)** Action tile prototype with gold counter 
+- **(10/15/24)** Fail screen when snake catches you 
 
 ![alt text](./image.png)

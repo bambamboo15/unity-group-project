@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
     // Public object variables 
@@ -48,6 +49,11 @@ public class Player : MonoBehaviour {
         return walls.HasTile(pos);
     }
 
+    // The player has been caught.
+    private void Caught() {
+        SceneManager.LoadScene("Assets/Scenes/FailScreen.unity");
+    }
+
     // Runs every frame 
     void Update() {
         //> Player input key mapping 
@@ -68,6 +74,22 @@ public class Player : MonoBehaviour {
                 dir = new Vector3(0.0f, -1.0f, 0.0f);
             } else if (D) {
                 dir = new Vector3(1.0f, 0.0f, 0.0f);
+            }
+        }
+
+        //> If the player is not moving and a snake is on top of it,
+        //> commence fail sequence 
+        if (!moving) {
+            Vector3Int pos = gridLayout.WorldToCell(transform.position);
+            for (int i = 0; i != snakes.transform.childCount; ++i) {
+                Snake snake = snakes.transform.GetChild(i).GetComponent<Snake>();
+                Vector3Int snake_pos = snake.Head();
+
+                //> Ouch!
+                if (snake_pos == pos) {
+                    Caught();
+                    return;
+                }
             }
         }
 

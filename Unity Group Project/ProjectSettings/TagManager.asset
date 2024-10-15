@@ -44,11 +44,11 @@ TagManager:
   - name: Walls
     uniqueID: 660909199
     locked: 0
-  - name: Snake
-    uniqueID: 1751925241
-    locked: 0
   - name: Player
     uniqueID: 1536659291
+    locked: 0
+  - name: Snake
+    uniqueID: 1751925241
     locked: 0
   - name: Default
     uniqueID: 0
