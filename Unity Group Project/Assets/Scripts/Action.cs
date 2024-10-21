@@ -11,7 +11,7 @@ public class Action : MonoBehaviour {
     public Player player;
 
     // Add the current tile to player action tiles as a reference 
-    void Start() {
+    public virtual void Start() {
         player.actionTiles.Add(this);
     }
 

@@ -32,5 +32,6 @@ For the **pixel art designer**, here are some of the 16x16 pixel art sprites tha
 - **(10/09/24)** Simple title screen prototype with scene switching 
 - **(10/14/24)** Action tile prototype with gold counter 
 - **(10/15/24)** Fail screen when snake catches you 
+- **(10/21/24)** Made gold work better 
 
 ![alt text](./image.png)
