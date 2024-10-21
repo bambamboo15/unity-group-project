@@ -269,7 +269,7 @@ GameObject:
   - component: {fileID: 836948136}
   - component: {fileID: 836948135}
   m_Layer: 5
-  m_Name: New Game
+  m_Name: Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -886,7 +886,7 @@ GameObject:
   - component: {fileID: 2030719407}
   - component: {fileID: 2030719406}
   m_Layer: 5
-  m_Name: Classic Mode
+  m_Name: Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

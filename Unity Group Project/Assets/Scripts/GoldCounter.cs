@@ -8,6 +8,9 @@ public class GoldCounter : MonoBehaviour {
     // much gold they have)
     public Player player;
 
+    // Object that holds all of the gold 
+    public Transform gold_container;
+
     // Our text component 
     private TMP_Text textComponent;
 
@@ -18,6 +21,6 @@ public class GoldCounter : MonoBehaviour {
 
     // Constantly update our text 
     void Update() {
-        textComponent.text = String.Format("Gold: {0}/{1}", player.gold, player.maxGold);
+        textComponent.text = String.Format("Gold: {0}/{1}", player.gold, gold_container.childCount);
     }
 }
