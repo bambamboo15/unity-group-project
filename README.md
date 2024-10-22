@@ -33,6 +33,8 @@ For the **pixel art designer**, here are some of the 16x16 pixel art sprites tha
 - **(10/14/24)** Action tile prototype with gold counter 
 - **(10/15/24)** Fail screen when snake catches you 
 - **(10/21/24)** Made gold work better 
-- **(10/21/24)** Made snake incrementally faster when gold collected 
+- **(10/21/24)** Started working without internet 
+- **(10/21/24)** Made snake faster when more gold collected 
+- **(10/22/24)** Made a map select prototype which does not work 
 
 ![alt text](./image.png)
