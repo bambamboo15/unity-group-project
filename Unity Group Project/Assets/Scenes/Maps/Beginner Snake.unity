@@ -173,6 +173,7 @@ MonoBehaviour:
   snakeHeadTile: {fileID: 11400000, guid: 9934bd6391f3d564db0da4bdc54f6dab, type: 2}
   snakeBodyTile: {fileID: 11400000, guid: aab0a415f21b65b459e50da5a2bbeddf, type: 2}
   walls: {fileID: 637468720}
+  goldMultiplier: 0.98
   moveInterval: 0.75
 --- !u!483693784 &27894344
 TilemapRenderer:
@@ -1541,6 +1542,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 905235976}
   collected: 0
+  snakes: {fileID: 1304513411}
 --- !u!212 &909059699
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1808,6 +1810,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 905235976}
   collected: 0
+  snakes: {fileID: 1304513411}
 --- !u!212 &1415824489
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4575,6 +4578,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 905235976}
   collected: 0
+  snakes: {fileID: 1304513411}
 --- !u!212 &1861539246
 SpriteRenderer:
   m_ObjectHideFlags: 0
