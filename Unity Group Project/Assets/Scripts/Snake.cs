@@ -18,6 +18,12 @@ public class Snake : MonoBehaviour {
     // Other required tilemaps 
     public Tilemap walls;
 
+    // When the player collects a gold, how much faster 
+    // does the snake get exponentially? That is, how 
+    // much does the delay multiply everytime that 
+    // happens?
+    public float goldMultiplier = 0.95f;
+
     // Other configurations 
     public float moveInterval;
 
@@ -46,6 +52,11 @@ public class Snake : MonoBehaviour {
             moveIntervalTimer = moveInterval;
             Move(CalculateBestDirection());
         }
+    }
+
+    // Apply the gold delay multiplier to the snake.
+    public void ApplyGoldMultiplier() {
+        moveInterval *= goldMultiplier;
     }
 
     // Calculate the "best direction" of the snake. It is what the snake 
