@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eb3a32ab5b3d5e4cb90f989e3d8221b, type: 3}
   m_Name: New Snake Head Tile
   m_EditorClassIdentifier: 
-  snakeHead: {fileID: 21300000, guid: f21991392d909eb46880c5485638ce39, type: 3}
+  snakeHead: {fileID: 21300000, guid: bb1502f4516dc1d41a59baa96f32e246, type: 3}
