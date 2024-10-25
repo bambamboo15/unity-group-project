@@ -3,7 +3,7 @@ using UnityEngine.Tilemaps;
 
 [ExecuteInEditMode]
 public class RestartBounds : MonoBehaviour {
-    [Rename("Restart Bounds")] public bool restart_bounds;
+    public bool restartBounds;
     private Tilemap tm;
 
     void Start() {
@@ -11,8 +11,8 @@ public class RestartBounds : MonoBehaviour {
     }
 
     void Update() {
-        if (restart_bounds) {
-            restart_bounds = false;
+        if (restartBounds) {
+            restartBounds = false;
             tm.CompressBounds();
         }
     }
