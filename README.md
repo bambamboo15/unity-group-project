@@ -39,10 +39,12 @@ For the **pixel art designer**, here are some of the 16x16 pixel art sprites tha
 - **(10/22/24)** Laid out a golden door idea (which does not work yet)
 - **(10/23/24), image designer** Made custom sprites 
 - **(10/23/24)** Imported custom sprites and refactored filesystem 
-- **(10/25/24)** Made some **prototype** sprites and verified player alignment 
+- **(10/25/24)** Made some prototype sprites and verified player alignment 
 - **(10/25/24)** Swapped custom floor and wall sprites 
 - **(10/25/24)** Made a great-looking title screen prototype 
 - **(10/25/24)** Made a few changes to design, such as canvas world space 
 - **(OBJECTIVE)** Make all gold be on one tilemap 
+- **(OBJECTIVE)** Add mobile support 
+- **(OBJECTIVE)** Export the first version of the game on Google Drive 
 
 ![alt text](./image.png)
