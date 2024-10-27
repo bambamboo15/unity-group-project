@@ -7,6 +7,9 @@ public class Player : MonoBehaviour {
     // Public object variables 
     public GameObject snakes;
     public Tilemap walls;
+    public Tilemap gold;
+    public Camera playerCamera;
+    public Canvas canvas;
     public Grid grid;
 
     // How long the player takes to breathe after they move 
@@ -28,11 +31,10 @@ public class Player : MonoBehaviour {
     private GridLayout gridLayout;
 
     // Gold collected 
-    public int gold;
+    public int goldCollected = 0;
 
     // Only runs on game startup 
     void Start() {
-        gold = 0;
         moving = false;
         delayTimer = delay;
         dir = new Vector3(1.0f, 0.0f, 0.0f);
@@ -124,12 +126,21 @@ public class Player : MonoBehaviour {
                 moving = false;
                 delayTimer = delay;
 
+                Vector3Int gridPos = gridLayout.WorldToCell(transform.position);
+
                 //> For all action tiles, call their Triggered methods 
                 for (int i = 0; i != actionTiles.Count; ++i) {
                     Action tile = actionTiles[i];
-                    if (gridLayout.WorldToCell(tile.transform.position) == gridLayout.WorldToCell(transform.position)) {
+                    if (gridLayout.WorldToCell(tile.transform.position) == gridPos) {
                         tile.Triggered();
                     }
+                }
+
+                //> Check if you are stepping on a gold tile 
+                if (gold.HasTile(gridPos)) {
+                    //> Then remove that tile and increment gold collected 
+                    gold.SetTile(gridPos, null);
+                    ++goldCollected;
                 }
             }
         }

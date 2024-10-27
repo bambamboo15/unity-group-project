@@ -1,6 +1,7 @@
 using UnityEngine;
-using TMPro;
+using UnityEngine.Tilemaps;
 using System;
+using TMPro;
 
 // Let us remind the player of how much gold they have.
 public class GoldCounter : MonoBehaviour {
@@ -8,8 +9,8 @@ public class GoldCounter : MonoBehaviour {
     // much gold they have)
     public Player player;
 
-    // Object that holds all of the gold 
-    public Transform gold_container;
+    // The gold 
+    public Gold gold;
 
     // Our text component 
     private TMP_Text textComponent;
@@ -21,6 +22,6 @@ public class GoldCounter : MonoBehaviour {
 
     // Constantly update our text 
     void Update() {
-        textComponent.text = String.Format("Gold: {0}/{1}", player.gold, gold_container.childCount);
+        textComponent.text = String.Format("Gold: {0}/{1}", player.goldCollected, gold.goldAmount);
     }
 }

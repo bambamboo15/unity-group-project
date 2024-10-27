@@ -1,40 +1,29 @@
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 // The player collects gold. Collect enough and 
 // you win. However, the game progressively gets harder 
 // and harder when you collect more gold, at least for 
 // classic mode.
-public class Gold : Action {
-    // Has the gold been collected?
-    public bool collected = false;
+public class Gold : MonoBehaviour {
+    // The Tilemap component 
+    private Tilemap tilemap;
 
-    // All of the snakes 
-    public Transform snakes;
+    // Total number of gold 
+    public int goldAmount;
 
-    // Private variables 
-    private SpriteRenderer sr;
-
-    // Gold initialization script 
-    public override void Start() {
-        sr = GetComponent<SpriteRenderer>();
-        base.Start();
+    void Start() {
+        tilemap = GetComponent<Tilemap>();
+        ComputeGoldAmount();
     }
 
-    // Make all of the snakes faster 
-    void MakeAllSnakesFaster() {
-        for (int i = 0; i != snakes.childCount; ++i) {
-            snakes.GetChild(i).GetComponent<Snake>().ApplyGoldMultiplier();
-        }
-    }
-
-    // When the gold is collected by the player 
-    public override void Triggered() {
-        if (!collected) {
-            collected = true;
-            sr.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
-            ++player.gold;
-
-            MakeAllSnakesFaster();
+    // Recompute gold amount, an expensive operation!
+    public void ComputeGoldAmount() {
+        for (int x = tilemap.origin.x; x != tilemap.origin.x + tilemap.size.x; ++x) {
+            for (int y = tilemap.origin.y; y != tilemap.origin.y + tilemap.size.y; ++y) {
+                Vector3Int pos = new Vector3Int(x, y, 0);
+                goldAmount += tilemap.HasTile(pos) ? 1 : 0;
+            }
         }
     }
 }

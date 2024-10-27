@@ -43,8 +43,9 @@ For the **pixel art designer**, here are some of the 16x16 pixel art sprites tha
 - **(10/25/24)** Swapped custom floor and wall sprites 
 - **(10/25/24)** Made a great-looking title screen prototype 
 - **(10/25/24)** Made a few changes to design, such as canvas world space 
-- **(OBJECTIVE)** Make all gold be on one tilemap 
+- **(10/27/24)** Completely revamped gold system, made it all on one tilemap 
+- **(10/27/24)** Fixed some other unrelated canvas issues 
 - **(OBJECTIVE)** Add mobile support 
-- **(OBJECTIVE)** Export the first version of the game on Google Drive 
+- **(OBJECTIVE)** Export the first version of the game on Google Drive (after building it)
 
 ![alt text](./image.png)
