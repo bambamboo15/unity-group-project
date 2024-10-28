@@ -45,6 +45,8 @@ For the **pixel art designer**, here are some of the 16x16 pixel art sprites tha
 - **(10/25/24)** Made a few changes to design, such as canvas world space 
 - **(10/27/24)** Completely revamped gold system, made it all on one tilemap 
 - **(10/27/24)** Fixed some other unrelated canvas issues 
+- **(10/28/24), image designer** Made more custom sprites 
+- **(10/28/24)** Added a "void" tilemap where you and the snake should not fall to 
 - **(OBJECTIVE)** Add mobile support 
 - **(OBJECTIVE)** Export the first version of the game on Google Drive (after building it)
 
