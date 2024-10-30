@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class ButtonManager : MonoBehaviour {
     public void MapSelect() {
-        SceneManager.LoadScene("Assets/Scenes/Map Select.unity");
+        SceneManager.LoadScene("Assets/Scenes/MapSelect.unity");
     }
     
     public void ClassicMode() {

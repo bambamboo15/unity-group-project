@@ -47,6 +47,11 @@ For the **pixel art designer**, here are some of the 16x16 pixel art sprites tha
 - **(10/27/24)** Fixed some other unrelated canvas issues 
 - **(10/28/24), image designer** Made more custom sprites 
 - **(10/28/24)** Added a "void" tilemap where you and the snake should not fall to 
+- **(10/29/24)** Renamed that tilemap to "NonBackground" and made it work on player 
+- **(10/29/24)** Added a "You Won!" screen prototype that does not work 
+- **(10/29/24)** Made that and the fail screen look extra detailed 
+- **(10/29/24)** Adjusted some details for the menu screen 
+- **(10/30/24)** Added player health feature, and made no health equate to failure 
 - **(OBJECTIVE)** Add mobile support 
 - **(OBJECTIVE)** Export the first version of the game on Google Drive (after building it)
 

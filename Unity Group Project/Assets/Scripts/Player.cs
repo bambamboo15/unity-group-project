@@ -3,9 +3,12 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.SceneManagement;
 
+// The player is one of the core components of the whole game.
+// What a "player" means should be self-explanatory.
 public class Player : MonoBehaviour {
     // Public object variables 
     public GameObject snakes;
+    public Tilemap background;
     public Tilemap walls;
     public Tilemap gold;
     public Camera playerCamera;
@@ -17,6 +20,10 @@ public class Player : MonoBehaviour {
 
     // How long the player takes to move from square to square 
     public float moveDelay;
+
+    // The player health and stamina
+    public int health = 100;
+    public int stamina = 100;
 
     // All action tiles 
     public List<Action> actionTiles = new List<Action>();
@@ -49,8 +56,8 @@ public class Player : MonoBehaviour {
         return walls.HasTile(pos);
     }
 
-    // The player has been caught.
-    private void Caught() {
+    // Ouch 
+    private void Ouch() {
         SceneManager.LoadScene("Assets/Scenes/FailScreen.unity");
     }
 
@@ -77,17 +84,23 @@ public class Player : MonoBehaviour {
             }
         }
 
+        //> If the player has no health left, commence fail sequence 
+        if (health < 1) {
+            Ouch();
+            return;
+        }
+
         //> If the player is not moving and a snake is on top of it,
-        //> commence fail sequence 
+        //> the snake attack 
         if (!moving) {
             Vector3Int pos = gridLayout.WorldToCell(transform.position);
             for (int i = 0; i != snakes.transform.childCount; ++i) {
                 Snake snake = snakes.transform.GetChild(i).GetComponent<Snake>();
                 Vector3Int snake_pos = snake.Head();
 
-                //> Ouch!
+                //> Ouch 
                 if (snake_pos == pos) {
-                    Caught();
+                    health -= 55;
                     return;
                 }
             }
@@ -141,6 +154,12 @@ public class Player : MonoBehaviour {
                     //> Then remove that tile and increment gold collected 
                     gold.SetTile(gridPos, null);
                     ++goldCollected;
+                }
+
+                //> Check if you are on a background tile, and if not, ouch 
+                if (!background.HasTile(gridPos)) {
+                    Ouch();
+                    return;
                 }
             }
         }
