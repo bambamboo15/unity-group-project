@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class Healthbar : MonoBehaviour {
@@ -6,10 +7,10 @@ public class Healthbar : MonoBehaviour {
     [SerializeField] private Player player;
 
     // The reference healthbar 
-    [SerializeField] private Transform reference;
+    [SerializeField] private RectTransform reference;
 
     // The health healthbar 
-    [SerializeField] private Transform health;
+    [SerializeField] private RectTransform health;
 
     // The health text 
     [SerializeField] private TMP_Text healthText;
@@ -17,15 +18,13 @@ public class Healthbar : MonoBehaviour {
     // Dynamically change everything 
     void Update() {
         healthText.text = player.health.ToString();
-        health.localScale = new Vector3(
-            reference.localScale.x * (player.health / 100.0f),
-            reference.localScale.y,
-            reference.localScale.z 
+        health.sizeDelta = new Vector2(
+            reference.sizeDelta.x * (player.health / 100.0f),
+            reference.sizeDelta.y 
         );
-        health.position = new Vector3(
-            reference.position.x - reference.localScale.x * 0.5f + health.localScale.x * 0.5f,
-            reference.position.y,
-            reference.position.z 
+        health.anchoredPosition = new Vector3(
+            reference.anchoredPosition.x - reference.sizeDelta.x * 0.5f + health.sizeDelta.x * 0.5f,
+            reference.anchoredPosition.y 
         );
     }
 }
