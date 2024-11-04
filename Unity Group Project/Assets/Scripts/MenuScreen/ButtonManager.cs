@@ -7,6 +7,6 @@ public class ButtonManager : MonoBehaviour {
     }
     
     public void ClassicMode() {
-        SceneManager.LoadScene("Assets/Scenes/Maps/Beginner Snake.unity");
+        SceneManager.LoadScene("Assets/Scenes/Maps/Demo.unity");
     }
 }

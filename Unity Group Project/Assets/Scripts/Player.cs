@@ -6,14 +6,14 @@ using UnityEngine.SceneManagement;
 // The player is one of the core components of the whole game.
 // What a "player" means should be self-explanatory.
 public class Player : MonoBehaviour {
-    // Public object variables 
-    public GameObject snakes;
-    public Tilemap background;
-    public Tilemap walls;
-    public Tilemap gold;
-    public Camera playerCamera;
-    public Canvas canvas;
-    public Grid grid;
+    // Object variables 
+    [SerializeField] private GameObject snakes;
+    [SerializeField] private Tilemap background;
+    [SerializeField] private Tilemap walls;
+    [SerializeField] private Gold gold;
+    [SerializeField] private Camera playerCamera;
+    [SerializeField] private Canvas canvas;
+    [SerializeField] private Grid grid;
 
     // How long the player takes to breathe after they move 
     public float delay;
@@ -35,7 +35,6 @@ public class Player : MonoBehaviour {
     private Vector3 dir;
     private Vector3 origPos;
     private Vector3 destPos;
-    private GridLayout gridLayout;
 
     // Gold collected 
     public int goldCollected = 0;
@@ -45,7 +44,6 @@ public class Player : MonoBehaviour {
         moving = false;
         delayTimer = delay;
         dir = new Vector3(1.0f, 0.0f, 0.0f);
-        gridLayout = grid.GetComponent<GridLayout>();
     }
 
     // Is this cell position blocked by a snake or wall tile?
@@ -93,7 +91,7 @@ public class Player : MonoBehaviour {
         //> If the player is not moving and a snake is on top of it,
         //> the snake attack 
         if (!moving) {
-            Vector3Int pos = gridLayout.WorldToCell(transform.position);
+            Vector3Int pos = grid.WorldToCell(transform.position);
             for (int i = 0; i != snakes.transform.childCount; ++i) {
                 Snake snake = snakes.transform.GetChild(i).GetComponent<Snake>();
                 Vector3Int snake_pos = snake.Head();
@@ -114,7 +112,7 @@ public class Player : MonoBehaviour {
             //> Get the tile position of where we are going to 
             Vector3 nextPos = transform.position +
                 Vector3.Scale(dir, new Vector3(1.0f, 1.0f, 0.0f) + grid.cellGap);
-            Vector3Int nextTilePos = gridLayout.WorldToCell(nextPos);
+            Vector3Int nextTilePos = grid.WorldToCell(nextPos);
             
             //> If we are not blocked, then do move 
             if (!isBlocked(nextTilePos)) {
@@ -139,20 +137,20 @@ public class Player : MonoBehaviour {
                 moving = false;
                 delayTimer = delay;
 
-                Vector3Int gridPos = gridLayout.WorldToCell(transform.position);
+                Vector3Int gridPos = grid.WorldToCell(transform.position);
 
                 //> For all action tiles, call their Triggered methods 
                 for (int i = 0; i != actionTiles.Count; ++i) {
                     Action tile = actionTiles[i];
-                    if (gridLayout.WorldToCell(tile.transform.position) == gridPos) {
+                    if (grid.WorldToCell(tile.transform.position) == gridPos) {
                         tile.Triggered();
                     }
                 }
 
-                //> Check if you are stepping on a gold tile 
-                if (gold.HasTile(gridPos)) {
-                    //> Then remove that tile and increment gold collected 
-                    gold.SetTile(gridPos, null);
+                //> Check if you are stepping on gold 
+                if (gold.HasGold(gridPos)) {
+                    //> Collect gold at that location 
+                    gold.CollectAt(gridPos);
                     ++goldCollected;
                 }
 

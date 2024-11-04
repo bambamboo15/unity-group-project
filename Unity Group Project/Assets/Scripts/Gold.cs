@@ -6,14 +6,19 @@ using UnityEngine.Tilemaps;
 // and harder when you collect more gold, at least for 
 // classic mode.
 public class Gold : MonoBehaviour {
+    // Gold particle effect prefab 
+    [SerializeField] private ParticleSystem collectionEffect;
+
+    // Grid 
+    [SerializeField] private Grid grid;
+
     // The Tilemap component 
-    private Tilemap tilemap;
+    [SerializeField] private Tilemap tilemap;
 
     // Total number of gold 
     public int goldAmount;
 
     void Start() {
-        tilemap = GetComponent<Tilemap>();
         ComputeGoldAmount();
     }
 
@@ -25,5 +30,17 @@ public class Gold : MonoBehaviour {
                 goldAmount += tilemap.HasTile(pos) ? 1 : 0;
             }
         }
+    }
+
+    // Does gold tile exist there?
+    public bool HasGold(Vector3Int pos) {
+        return tilemap.HasTile(pos);
+    }
+
+    // Collect gold at location given that there is a tile there.
+    public void CollectAt(Vector3Int pos) {
+        tilemap.SetTile(pos, null);
+        Vector3 worldPos = grid.CellToWorld(pos) + new Vector3(grid.cellSize.x * 0.5f, grid.cellSize.y * 0.5f, 0.0f);
+        Instantiate(collectionEffect, worldPos, Quaternion.identity);
     }
 }
