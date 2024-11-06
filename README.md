@@ -15,9 +15,26 @@ To **design a map**, [to be determined]
 For the **pixel art designer**, here are some of the 16x16 pixel art sprites that we need (make it kind of simple, similar to the ones that we have):
 - Snake body sprite 
 - Snake head sprite 
-- Apple sprite 
-- Potential item designs 
-- Tile designs (optional)
+- Gold sprite 
+- Exit sprite 
+- Item sprites 
+- Player sprite 
+- Golden door sprite 
+- Map-related sprites 
+
+For the **sound effect searcher**, the following is maybe neeeded:
+- Title screen music 
+- Game music 
+- Lose sound effect (or snake capture sound effect)
+- Item collection (or usage) sound effects 
+- Gold collection sound effect 
+- Golden door opening sound effect 
+- Exit reached sound effect (optional)
+- Player movement sound effect (optional)
+- Snake movement sound effect (optional)
+- Health reduction sound effect (optional)
+- Healing sound effect (optional)
+- Menu sound effect (optional)
 
 ## Game Progress 
 - **(9/24/24)** Made a grid 
@@ -52,6 +69,11 @@ For the **pixel art designer**, here are some of the 16x16 pixel art sprites tha
 - **(10/29/24)** Made that and the fail screen look extra detailed 
 - **(10/29/24)** Adjusted some details for the menu screen 
 - **(10/30/24)** Added player health feature, and made no health equate to failure 
+- **(10/30/24)** Made the map look a little better 
+- **(10/30/24)** Added an "exit" tilemap that does not work 
+- **(10/31/24)** Did lots of map experimentation 
+- **(11/01/24)** Complete map overhaul, added URP and post-processing 
+- **(11/01/24)** Decided on a more arcade-style map 
 - **(OBJECTIVE)** Add mobile support 
 - **(OBJECTIVE)** Export the first version of the game on Google Drive (after building it)
 

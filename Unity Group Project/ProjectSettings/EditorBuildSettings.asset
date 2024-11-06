@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MapSelect.unity
     guid: b9ae27b6a53d1a645b1d29278aab6a92
+  - enabled: 1
+    path: Assets/Scenes/YouWonScreen.unity
+    guid: ef9d626cbf268bf45bae29f064a5994c
   m_configObjects: {}

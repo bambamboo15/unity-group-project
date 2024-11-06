@@ -10,6 +10,7 @@ public class Player : MonoBehaviour {
     [SerializeField] private GameObject snakes;
     [SerializeField] private Tilemap background;
     [SerializeField] private Tilemap walls;
+    [SerializeField] private Tilemap exit;
     [SerializeField] private Gold gold;
     [SerializeField] private Camera playerCamera;
     [SerializeField] private Canvas canvas;
@@ -59,6 +60,11 @@ public class Player : MonoBehaviour {
         SceneManager.LoadScene("Assets/Scenes/FailScreen.unity");
     }
 
+    // YouWon
+    private void YouWon() {
+        SceneManager.LoadScene("Assets/Scenes/YouWonScreen.unity");
+    }
+
     // Runs every frame 
     void Update() {
         //> Player input key mapping 
@@ -91,7 +97,11 @@ public class Player : MonoBehaviour {
         //> If the player is not moving and a snake is on top of it,
         //> the snake attack 
         if (!moving) {
+            //> If the player is on an exit square, instantly win 
             Vector3Int pos = grid.WorldToCell(transform.position);
+            if (exit.HasTile(pos))
+                YouWon();
+            
             for (int i = 0; i != snakes.transform.childCount; ++i) {
                 Snake snake = snakes.transform.GetChild(i).GetComponent<Snake>();
                 Vector3Int snake_pos = snake.Head();
