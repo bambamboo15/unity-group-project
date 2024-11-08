@@ -15,6 +15,9 @@ public class Gold : MonoBehaviour {
     // The Tilemap component 
     [SerializeField] private Tilemap tilemap;
 
+    // The audio source for gold collection 
+    [SerializeField] private AudioSource goldAudio;
+
     // Total number of gold 
     public int goldAmount;
 
@@ -42,5 +45,7 @@ public class Gold : MonoBehaviour {
         tilemap.SetTile(pos, null);
         Vector3 worldPos = grid.CellToWorld(pos) + new Vector3(grid.cellSize.x * 0.5f, grid.cellSize.y * 0.5f, 0.0f);
         Instantiate(collectionEffect, worldPos, Quaternion.identity);
+
+        goldAudio.Play(0);
     }
 }

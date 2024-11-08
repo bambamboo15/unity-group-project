@@ -74,6 +74,9 @@ For the **sound effect searcher**, the following is maybe neeeded:
 - **(10/31/24)** Did lots of map experimentation 
 - **(11/01/24)** Complete map overhaul, added URP and post-processing 
 - **(11/01/24)** Decided on a more arcade-style map 
+- **(11/01/24), undocumented start** We started really working on the project 
+- **(11/08/24), undocumented end** More than half-way done with the presentation 
+- **(11/08/24)** Made gold trigger its sound effect when collected 
 - **(OBJECTIVE)** Add mobile support 
 - **(OBJECTIVE)** Export the first version of the game on Google Drive (after building it)
 
