@@ -11,6 +11,7 @@ public class Player : MonoBehaviour {
     [SerializeField] private Tilemap background;
     [SerializeField] private Tilemap walls;
     [SerializeField] private Tilemap exit;
+    [SerializeField] private Tilemap items;
     [SerializeField] private Gold gold;
     [SerializeField] private Camera playerCamera;
     [SerializeField] private Canvas canvas;
@@ -25,10 +26,7 @@ public class Player : MonoBehaviour {
     // The player health and stamina
     public int health = 100;
     public int stamina = 100;
-
-    // All action tiles 
-    public List<Action> actionTiles = new List<Action>();
-
+    
     // Private variables 
     private bool moving;
     private float delayTimer;
@@ -149,12 +147,9 @@ public class Player : MonoBehaviour {
 
                 Vector3Int gridPos = grid.WorldToCell(transform.position);
 
-                //> For all action tiles, call their Triggered methods 
-                for (int i = 0; i != actionTiles.Count; ++i) {
-                    Action tile = actionTiles[i];
-                    if (grid.WorldToCell(tile.transform.position) == gridPos) {
-                        tile.Triggered();
-                    }
+                //> Check if you are stepping on an item 
+                if (items.HasTile(gridPos)) {
+                    items.SetTile(gridPos, null);
                 }
 
                 //> Check if you are stepping on gold 

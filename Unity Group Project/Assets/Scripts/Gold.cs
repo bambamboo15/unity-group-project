@@ -12,6 +12,9 @@ public class Gold : MonoBehaviour {
     // Grid 
     [SerializeField] private Grid grid;
 
+    // Snake folder 
+    [SerializeField] private Transform snakes;
+
     // The Tilemap component 
     [SerializeField] private Tilemap tilemap;
 
@@ -47,5 +50,10 @@ public class Gold : MonoBehaviour {
         Instantiate(collectionEffect, worldPos, Quaternion.identity);
 
         goldAudio.Play(0);
+
+        for (int i = 0; i != snakes.childCount; ++i) {
+            Snake snake = snakes.GetChild(i).GetComponent<Snake>();
+            snake.ApplyGoldCollection();
+        }
     }
 }

@@ -77,6 +77,10 @@ For the **sound effect searcher**, the following is maybe neeeded:
 - **(11/01/24), undocumented start** We started really working on the project 
 - **(11/08/24), undocumented end** More than half-way done with the presentation 
 - **(11/08/24)** Made gold trigger its sound effect when collected 
+- **(11/13/24), undocumented end** Two days after the demo 
+- **(11/13/24)** Made fundamental item sprite structure 
+- **(11/13/24), image designer** Designed lots of pixel art sprites 
+- **(11/13/24)** Made gold and item functionality much better 
 - **(OBJECTIVE)** Add mobile support 
 - **(OBJECTIVE)** Export the first version of the game on Google Drive (after building it)
 

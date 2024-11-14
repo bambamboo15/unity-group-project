@@ -54,8 +54,8 @@ public class Snake : MonoBehaviour {
         }
     }
 
-    // Apply the gold delay multiplier to the snake.
-    public void ApplyGoldMultiplier() {
+    // Apply gold collection to the snake 
+    public void ApplyGoldCollection() {
         moveInterval *= goldMultiplier;
     }
 
