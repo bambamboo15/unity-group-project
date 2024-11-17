@@ -1,7 +1,10 @@
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.SceneManagement;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 // The player is one of the core components of the whole game.
 // What a "player" means should be self-explanatory.
@@ -16,6 +19,7 @@ public class Player : MonoBehaviour {
     [SerializeField] private Camera playerCamera;
     [SerializeField] private Canvas canvas;
     [SerializeField] private Grid grid;
+    [SerializeField] private Volume volume;
 
     // How long the player takes to breathe after they move 
     public float delay;
@@ -23,7 +27,10 @@ public class Player : MonoBehaviour {
     // How long the player takes to move from square to square 
     public float moveDelay;
 
-    // The player health and stamina
+    // The absolute speed multiplier for the player 
+    public float speedMultiplier = 1.0f;
+
+    // The player health and stamina 
     public int health = 100;
     public int stamina = 100;
     
@@ -38,6 +45,9 @@ public class Player : MonoBehaviour {
     // Gold collected 
     public int goldCollected = 0;
 
+    // Various postprocessor settings 
+    private Bloom postProcessorBloom;
+
     // Only runs on game startup 
     void Start() {
         moving = false;
@@ -51,6 +61,20 @@ public class Player : MonoBehaviour {
             if (snakes.transform.GetChild(i).GetComponent<Tilemap>().HasTile(pos))
                 return true;
         return walls.HasTile(pos);
+    }
+
+    // When you collect an item, what happens?
+    // (function is in charge of everything except 
+    //  deleting the tile)
+    private void CollectItem(TileBase item) {
+        if (item is SpeedupItem) {
+            SpeedupItem speedup = item as SpeedupItem;
+            speedMultiplier = 1.2f;
+
+            VolumeProfile profile = volume.sharedProfile;
+            volume.profile.TryGet(out postProcessorBloom);
+            postProcessorBloom.intensity.value = 1.5f;
+        }
     }
 
     // Ouch 
@@ -115,7 +139,7 @@ public class Player : MonoBehaviour {
         //> If the updated delay timer is out, the player is not moving,
         //> and the player pressed a key after the delay timer went off,
         //> then enter the move sequence 
-        delayTimer -= Time.deltaTime;
+        delayTimer -= Time.deltaTime * speedMultiplier;
         if (!moving && delayTimer < 0.0f && ANY) {
             //> Get the tile position of where we are going to 
             Vector3 nextPos = transform.position +
@@ -134,7 +158,7 @@ public class Player : MonoBehaviour {
         //> If the player is moving, let the move delay timer count down,
         //> and lerp the player position 
         if (moving) {
-            moveDelayTimer -= Time.deltaTime;
+            moveDelayTimer -= Time.deltaTime * speedMultiplier;
             float dt = 1.0f - (moveDelayTimer / moveDelay);
             transform.position = Vector3.Lerp(origPos, destPos, dt);
 
@@ -148,7 +172,9 @@ public class Player : MonoBehaviour {
                 Vector3Int gridPos = grid.WorldToCell(transform.position);
 
                 //> Check if you are stepping on an item 
-                if (items.HasTile(gridPos)) {
+                TileBase itemTile = items.GetTile(gridPos);
+                if (itemTile != null) {
+                    CollectItem(itemTile);
                     items.SetTile(gridPos, null);
                 }
 

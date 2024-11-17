@@ -81,6 +81,8 @@ For the **sound effect searcher**, the following is maybe neeeded:
 - **(11/13/24)** Made fundamental item sprite structure 
 - **(11/13/24), image designer** Designed lots of pixel art sprites 
 - **(11/13/24)** Made gold and item functionality much better 
+- **(11/17/24), undocumented end**
+- **(11/17/24)** Made the first working prototype of the speedup item!
 - **(OBJECTIVE)** Add mobile support 
 - **(OBJECTIVE)** Export the first version of the game on Google Drive (after building it)
 

@@ -5903,8 +5903,10 @@ MonoBehaviour:
   playerCamera: {fileID: 519420031}
   canvas: {fileID: 1068648469}
   grid: {fileID: 1925998573}
+  volume: {fileID: 1299280332}
   delay: 0.2
   moveDelay: 0.25
+  speedMultiplier: 1
   health: 100
   stamina: 100
   goldCollected: 0
