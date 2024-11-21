@@ -1,18 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class GoldDoor : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+// When you collect enough gold, this door opens 
+public class GoldDoor : MonoBehaviour {
+    // Gold required to open the door 
+    public int goldRequired = 1;
 }

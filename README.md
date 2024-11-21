@@ -83,6 +83,14 @@ For the **sound effect searcher**, the following is maybe neeeded:
 - **(11/13/24)** Made gold and item functionality much better 
 - **(11/17/24), undocumented end**
 - **(11/17/24)** Made the first working prototype of the speedup item!
+- **(11/20/24), undocumented end**
+- **(11/20/24), image designer** Made inventory prototype sprite 
+- **(11/20/24)** Transformed prototype inventory design into a more working one 
+- **(11/20/24), at most** Made random item spawners with probabilities 
+- **(11/20/24), at most** Made item collection really work 
+- **(11/21/24)** Made inventory functional 
+- **(11/21/24)** Made items usable from inventory, each with their own different functions...
+- **(11/24/24)** ...and gave us a massive understanding of interfaces and abstract classes 
 - **(OBJECTIVE)** Add mobile support 
 - **(OBJECTIVE)** Export the first version of the game on Google Drive (after building it)
 

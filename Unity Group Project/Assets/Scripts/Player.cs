@@ -20,6 +20,7 @@ public class Player : MonoBehaviour {
     [SerializeField] private Canvas canvas;
     [SerializeField] private Grid grid;
     [SerializeField] private Volume volume;
+    [SerializeField] private Items itemManager;
 
     // How long the player takes to breathe after they move 
     public float delay;
@@ -45,6 +46,12 @@ public class Player : MonoBehaviour {
     // Gold collected 
     public int goldCollected = 0;
 
+    // Player inventory and current inventory item selected 
+    public ItemTag[] inventory = new ItemTag[3] {
+        new ItemTag(), new ItemTag(), new ItemTag()
+    };
+    public int inventorySelectedIndex = 0;
+
     // Various postprocessor settings 
     private Bloom postProcessorBloom;
 
@@ -64,17 +71,39 @@ public class Player : MonoBehaviour {
     }
 
     // When you collect an item, what happens?
-    // (function is in charge of everything except 
-    //  deleting the tile)
-    private void CollectItem(TileBase item) {
-        if (item is SpeedupItem) {
-            SpeedupItem speedup = item as SpeedupItem;
-            speedMultiplier = 1.2f;
-
-            VolumeProfile profile = volume.sharedProfile;
-            volume.profile.TryGet(out postProcessorBloom);
-            postProcessorBloom.intensity.value = 1.5f;
+    //  (do not deal with deleting item)
+    private void CollectItem(Item item) {
+        // If the player has an unused inventory slot, put the 
+        // collected item tag there 
+        int i = 0;
+        for (; i != 3; ++i) {
+            if (inventory[i].empty) {
+                inventory[i] = new ItemTag(item);
+                break;
+            }
         }
+
+        // If the player has no unused inventory slots, replace 
+        // the currently selected item tag with the collected 
+        // item tag.
+        //
+        // [TODO] Place the replaced item tag back onto the map 
+        if (i == 3)
+            inventory[inventorySelectedIndex] = new ItemTag(item);
+    }
+
+    // Use the current item selected, if any 
+    private void UseItemSelected() {
+        ItemTag tag = inventory[inventorySelectedIndex];
+        if (!tag.empty) {
+            inventory[inventorySelectedIndex] = new ItemTag();
+            UseItem(tag);
+        }
+    }
+
+    // What happens when you use an item?
+    private void UseItem(ItemTag tag) {
+        tag.itemInterface.Function();
     }
 
     // Ouch 
@@ -95,6 +124,9 @@ public class Player : MonoBehaviour {
         bool S = Input.GetKey("s");
         bool D = Input.GetKey("d");
         bool ANY = W || A || S || D;
+        
+        bool E = Input.GetKey("e");
+        bool SPACE = Input.GetKeyDown("space");
 
         //> Get player input and adjust direction based on that, if the 
         //> player is not moving 
@@ -136,6 +168,17 @@ public class Player : MonoBehaviour {
             }
         }
 
+        //> If the player is not moving, but is holding E, and the currently 
+        //> selected item slot is nonempty, then use it 
+        if (!moving && E)
+            UseItemSelected();
+
+        //> If the player presses space, move to the next inventory slot 
+        //> and cycle if necessary 
+        if (SPACE)
+            inventorySelectedIndex =
+                (inventorySelectedIndex + 1) % 3;
+
         //> If the updated delay timer is out, the player is not moving,
         //> and the player pressed a key after the delay timer went off,
         //> then enter the move sequence 
@@ -173,8 +216,8 @@ public class Player : MonoBehaviour {
 
                 //> Check if you are stepping on an item 
                 TileBase itemTile = items.GetTile(gridPos);
-                if (itemTile != null) {
-                    CollectItem(itemTile);
+                if (itemTile != null && itemTile is Item) {
+                    CollectItem(itemTile as Item);
                     items.SetTile(gridPos, null);
                 }
 
