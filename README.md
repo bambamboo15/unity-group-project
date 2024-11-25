@@ -90,7 +90,8 @@ For the **sound effect searcher**, the following is maybe neeeded:
 - **(11/20/24), at most** Made item collection really work 
 - **(11/21/24)** Made inventory functional 
 - **(11/21/24)** Made items usable from inventory, each with their own different functions...
-- **(11/24/24)** ...and gave us a massive understanding of interfaces and abstract classes 
+- **(11/21/24)** ...and gave us a massive understanding of interfaces and abstract classes 
+- **(11/22/24)** Made title screen better 
 - **(OBJECTIVE)** Add mobile support 
 - **(OBJECTIVE)** Export the first version of the game on Google Drive (after building it)
 

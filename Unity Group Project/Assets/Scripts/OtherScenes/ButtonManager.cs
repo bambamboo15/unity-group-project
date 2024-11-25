@@ -9,4 +9,8 @@ public class ButtonManager : MonoBehaviour {
     public void ClassicMode() {
         SceneManager.LoadScene("Assets/Scenes/Maps/Demo.unity");
     }
+
+    public void LoadDemo() {
+        SceneManager.LoadScene("Assets/Scenes/Maps/Demo.unity");
+    }
 }

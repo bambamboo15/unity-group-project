@@ -5,6 +5,6 @@ using UnityEngine.Tilemaps;
 // It is replaced by another item or no item 
 // based on predetermined probabilities.
 [CreateAssetMenu]
-public class RandomItem : Item {
+public class RandomItem : Item, IItem {
     public void Function() {}
 }
