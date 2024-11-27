@@ -91,7 +91,11 @@ For the **sound effect searcher**, the following is maybe neeeded:
 - **(11/21/24)** Made inventory functional 
 - **(11/21/24)** Made items usable from inventory, each with their own different functions...
 - **(11/21/24)** ...and gave us a massive understanding of interfaces and abstract classes 
-- **(11/22/24)** Made title screen better 
+- **(11/22/24)** Made prototype better designs for title and map screen 
+- **(11/25/24), undocumented end**
+- **(11/25/24), idea maker as map designer** Provided a legacy cave-style map 
+- **(11/27/24), undocumented end**
+- **(11/27/24)** Extended the demo map a little 
 - **(OBJECTIVE)** Add mobile support 
 - **(OBJECTIVE)** Export the first version of the game on Google Drive (after building it)
 

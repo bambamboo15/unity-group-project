@@ -19,7 +19,8 @@ public class MapSelect : MonoBehaviour {
         TMP_Text name = nameT.GetComponent<TMP_Text>();
         TMP_Text desc = descT.GetComponent<TMP_Text>();
         Image border = borderT.GetComponent<Image>();
-        name.material = textSelected;
+        name.fontSharedMaterial = textSelected;
+        desc.fontSharedMaterial = textSelected;
         border.material = borderSelected;
     }
 }
