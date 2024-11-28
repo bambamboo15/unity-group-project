@@ -96,6 +96,9 @@ For the **sound effect searcher**, the following is maybe neeeded:
 - **(11/25/24), idea maker as map designer** Provided a legacy cave-style map 
 - **(11/27/24), undocumented end**
 - **(11/27/24)** Extended the demo map a little 
+- **(11/27/24)** Introduced a sound effect player 
+- **(11/27/24)** Added lots of prototype sound effects 
+- **(11/27/24)** Made internal item handling much better 
 - **(OBJECTIVE)** Add mobile support 
 - **(OBJECTIVE)** Export the first version of the game on Google Drive (after building it)
 

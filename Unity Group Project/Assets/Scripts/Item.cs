@@ -3,7 +3,7 @@ using UnityEngine.Tilemaps;
 
 // The interface all items have to follow 
 public interface IItem {
-    public void Function();
+    public void Function(Player player);
 }
 
 // Represents an arbitrary item 

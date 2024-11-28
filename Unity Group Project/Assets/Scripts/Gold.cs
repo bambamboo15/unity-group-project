@@ -18,8 +18,11 @@ public class Gold : MonoBehaviour {
     // The Tilemap component 
     [SerializeField] private Tilemap tilemap;
 
-    // The audio source for gold collection 
-    [SerializeField] private AudioSource goldAudio;
+    // Sound effect player 
+    [SerializeField] private SFXPlayer sfxPlayer;
+
+    // The audio clip for gold collection 
+    [SerializeField] private AudioClip goldAudio;
 
     // Total number of gold 
     public int goldAmount;
@@ -49,7 +52,7 @@ public class Gold : MonoBehaviour {
         Vector3 worldPos = grid.CellToWorld(pos) + new Vector3(grid.cellSize.x * 0.5f, grid.cellSize.y * 0.5f, 0.0f);
         Instantiate(collectionEffect, worldPos, Quaternion.identity);
 
-        goldAudio.Play(0);
+        sfxPlayer.Play(goldAudio);
 
         for (int i = 0; i != snakes.childCount; ++i) {
             Snake snake = snakes.GetChild(i).GetComponent<Snake>();

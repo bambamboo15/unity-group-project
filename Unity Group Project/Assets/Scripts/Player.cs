@@ -9,7 +9,7 @@ using UnityEngine.Rendering.Universal;
 // The player is one of the core components of the whole game.
 // What a "player" means should be self-explanatory.
 public class Player : MonoBehaviour {
-    // Object variables 
+    // Object variables and audios 
     [SerializeField] private GameObject snakes;
     [SerializeField] private Tilemap background;
     [SerializeField] private Tilemap walls;
@@ -21,6 +21,9 @@ public class Player : MonoBehaviour {
     [SerializeField] private Grid grid;
     [SerializeField] private Volume volume;
     [SerializeField] private Items itemManager;
+    [SerializeField] private SFXPlayer sfxPlayer;
+    [SerializeField] private AudioClip itemCollectionAudio;
+    [SerializeField] private AudioClip inventoryToggleAudio;
 
     // How long the player takes to breathe after they move 
     public float delay;
@@ -86,10 +89,11 @@ public class Player : MonoBehaviour {
         // If the player has no unused inventory slots, replace 
         // the currently selected item tag with the collected 
         // item tag.
-        //
-        // [TODO] Place the replaced item tag back onto the map 
         if (i == 3)
             inventory[inventorySelectedIndex] = new ItemTag(item);
+        
+        // Play item sound 
+        sfxPlayer.Play(itemCollectionAudio);
     }
 
     // Use the current item selected, if any 
@@ -102,9 +106,22 @@ public class Player : MonoBehaviour {
     }
 
     // What happens when you use an item?
+    //
+    // This will call a Use{ItemName} function that the player 
+    // has to implement. Such functions must be public, and 
+    // must assume that the position of an item is located on 
+    // the tile that the player is on.
     private void UseItem(ItemTag tag) {
-        tag.itemInterface.Function();
+        tag.itemInterface.Function(this);
     }
+
+    // Use a speedup item 
+    public void UseSpeedup() {
+        
+    }
+
+    // Use a cookie item 
+    public void UseCookie() {}
 
     // Ouch 
     private void Ouch() {
@@ -174,10 +191,11 @@ public class Player : MonoBehaviour {
             UseItemSelected();
 
         //> If the player presses space, move to the next inventory slot 
-        //> and cycle if necessary 
-        if (SPACE)
-            inventorySelectedIndex =
-                (inventorySelectedIndex + 1) % 3;
+        //> and cycle if necessary; play audio as well 
+        if (SPACE) {
+            inventorySelectedIndex = (inventorySelectedIndex + 1) % 3;
+            sfxPlayer.Play(inventoryToggleAudio);
+        }
 
         //> If the updated delay timer is out, the player is not moving,
         //> and the player pressed a key after the delay timer went off,

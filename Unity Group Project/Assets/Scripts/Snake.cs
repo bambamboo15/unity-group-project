@@ -24,8 +24,17 @@ public class Snake : MonoBehaviour {
     // happens?
     public float goldMultiplier = 0.95f;
 
+    // Sound effect player 
+    public SFXPlayer sfxPlayer;
+
+    // Audio cues that the snake will make 
+    public AudioClip moveAudio;
+    public AudioClip cookieAudio;
+
     // Other configurations 
     public float moveInterval;
+    public int restartLength;
+    public float restartMultiplier;
 
     // Snake body data structure. Essentially what this is are all 
     // the tiles of the snake. The last element of this "body" list 
@@ -37,6 +46,7 @@ public class Snake : MonoBehaviour {
     private GridLayout gridLayout;
     private Tilemap tilemap;
     private float moveIntervalTimer;
+    private bool stuck = false;
 
     // Initialize the internal data structure based on prepared tiles.
     void Start() {
@@ -65,8 +75,8 @@ public class Snake : MonoBehaviour {
     //
     // If the snake is somehow "trapped", it will return a (0, 0, 0)
     public Vector3Int CalculateBestDirection() {
-        Vector3Int  head = Head(), output = Vector3Int.zero,
-                    playerPos = gridLayout.WorldToCell(player.transform.position);
+        Vector3Int head = Head(), output = Vector3Int.zero,
+                   playerPos = gridLayout.WorldToCell(player.transform.position);
         float minDistance = float.PositiveInfinity;
 
         if (!isBlocked(head + Vector3Int.up)) {
@@ -114,15 +124,34 @@ public class Snake : MonoBehaviour {
     }
 
     // Move the snake in a certain direction!
+    //
+    // If, somehow, the direction equals the zero vector,
+    // the snake will go to its restart length, however,
+    // it will get slower.
     public void Move(Vector3Int dir) {
-        Vector3Int head = Head(), tail = Tail();
+        if (dir.Equals(Vector3Int.zero)) {
+            for (int length = Length(); length > restartLength; --length) {
+                Vector3Int tail = Tail();
+                tilemap.SetTile(tail, null);
+                body.RemoveFirst();
+            }
+            if (!stuck) {
+                moveInterval *= restartMultiplier;
+                stuck = true;
+            }
+        } else {
+            Vector3Int head = Head(), tail = Tail();
 
-        tilemap.SetTile(head, snakeBodyTile);
-        tilemap.SetTile(head + dir, snakeHeadTile);
-        tilemap.SetTile(tail, null);
+            tilemap.SetTile(head, snakeBodyTile);
+            tilemap.SetTile(head + dir, snakeHeadTile);
+            tilemap.SetTile(tail, null);
 
-        body.AddLast(head + dir);
-        body.RemoveFirst();
+            body.AddLast(head + dir);
+            body.RemoveFirst();
+            stuck = false;
+            
+            sfxPlayer.Play(moveAudio, head);
+        }
     }
 
     // Get the tail of the snake 
@@ -157,6 +186,7 @@ public class Snake : MonoBehaviour {
     }
     
     // This function gets the entire snake body from prepared tiles.
+    // This sets the original length counter accordingly.
     //
     // Now, a problem is how to get snake data from us painting the 
     // snake. Remember, we do not assign an order to any snake tile.

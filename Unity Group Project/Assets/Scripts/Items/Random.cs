@@ -6,5 +6,5 @@ using UnityEngine.Tilemaps;
 // based on predetermined probabilities.
 [CreateAssetMenu]
 public class RandomItem : Item, IItem {
-    public void Function() {}
+    public void Function(Player player) {}
 }
