@@ -4,6 +4,7 @@ using UnityEngine.Tilemaps;
 // Item tag 
 public class ItemTag {
     public Sprite sprite;
+    public string name;
     public bool empty;
     public IItem itemInterface;
 
@@ -13,6 +14,7 @@ public class ItemTag {
 
     public ItemTag(Item item) {
         sprite = item.sprite;
+        name = item.itemName;
         empty = false;
         itemInterface = item as IItem;
     }
@@ -21,7 +23,7 @@ public class ItemTag {
 // Keeps track of all items and manages their initialization 
 public class Items : MonoBehaviour {
     // The tilemap 
-    [SerializeField] private Tilemap tilemap;
+    private Tilemap tilemap;
 
     // Item assets 
     [SerializeField] private Item speedup;
@@ -33,6 +35,8 @@ public class Items : MonoBehaviour {
 
     // Initialize all items 
     void Start() {
+        tilemap = GetComponent<Tilemap>();
+
         for (int x = tilemap.origin.x; x != tilemap.origin.x + tilemap.size.x; ++x) {
             for (int y = tilemap.origin.y; y != tilemap.origin.y + tilemap.size.y; ++y) {
                 Vector3Int pos = new Vector3Int(x, y, 0);
@@ -52,5 +56,9 @@ public class Items : MonoBehaviour {
                 }
             }
         }
+    }
+
+    void Update() {
+        transform.position = new Vector3(0.0f, Mathf.Sin(Time.time * 3.0f) * 0.075f * tilemap.layoutGrid.cellSize.y, 0.0f);
     }
 }

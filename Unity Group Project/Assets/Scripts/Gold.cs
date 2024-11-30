@@ -6,7 +6,7 @@ using UnityEngine.Tilemaps;
 // and harder when you collect more gold, at least for 
 // classic mode.
 public class Gold : MonoBehaviour {
-    // Gold particle effect prefab 
+    // Particle effect prefab 
     [SerializeField] private ParticleSystem collectionEffect;
 
     // Grid 
@@ -23,6 +23,9 @@ public class Gold : MonoBehaviour {
 
     // The audio clip for gold collection 
     [SerializeField] private AudioClip goldAudio;
+
+    // The color of the gold effect 
+    [SerializeField] private Color collectColor;
 
     // Total number of gold 
     public int goldAmount;
@@ -50,6 +53,8 @@ public class Gold : MonoBehaviour {
     public void CollectAt(Vector3Int pos) {
         tilemap.SetTile(pos, null);
         Vector3 worldPos = grid.CellToWorld(pos) + new Vector3(grid.cellSize.x * 0.5f, grid.cellSize.y * 0.5f, 0.0f);
+        ParticleSystem.MainModule settings = collectionEffect.main;
+        settings.startColor = new ParticleSystem.MinMaxGradient(collectColor);
         Instantiate(collectionEffect, worldPos, Quaternion.identity);
 
         sfxPlayer.Play(goldAudio);

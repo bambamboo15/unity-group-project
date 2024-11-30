@@ -4,9 +4,8 @@ using System.Collections.Generic;
 using System;
 
 public class Snake : MonoBehaviour {
-    // The player the snake should be directed to. It can virtually 
-    // be any GameObject because only the position is tracked.
-    public GameObject player;
+    // The player the snake should be directed to.
+    public Player player;
 
     // The grid for layout purposes 
     public Grid grid;
@@ -114,13 +113,10 @@ public class Snake : MonoBehaviour {
         return output;
     }
 
-    // Is the square disallowed from the snake?
-    // TODO: Avoid code duplication from Player 
+    // Is the square disallowed from the snake? The only possibilities are:
+    //    - a square such that the player cannot go to 
     public bool isBlocked(Vector3Int pos) {
-        for (int i = 0; i != transform.parent.childCount; ++i)
-            if (transform.parent.GetChild(i).GetComponent<Tilemap>().HasTile(pos))
-                return true;
-        return walls.HasTile(pos);
+        return player.isBlocked(pos);
     }
 
     // Move the snake in a certain direction!

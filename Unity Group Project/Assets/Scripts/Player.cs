@@ -9,12 +9,12 @@ using UnityEngine.Rendering.Universal;
 // The player is one of the core components of the whole game.
 // What a "player" means should be self-explanatory.
 public class Player : MonoBehaviour {
-    // Object variables and audios 
     [SerializeField] private GameObject snakes;
     [SerializeField] private Tilemap background;
     [SerializeField] private Tilemap walls;
     [SerializeField] private Tilemap exit;
     [SerializeField] private Tilemap items;
+    [SerializeField] private Transform goldDoorFolder;
     [SerializeField] private Gold gold;
     [SerializeField] private Camera playerCamera;
     [SerializeField] private Canvas canvas;
@@ -22,8 +22,10 @@ public class Player : MonoBehaviour {
     [SerializeField] private Volume volume;
     [SerializeField] private Items itemManager;
     [SerializeField] private SFXPlayer sfxPlayer;
+    [SerializeField] private AudioClip healthLossAudio;
     [SerializeField] private AudioClip itemCollectionAudio;
     [SerializeField] private AudioClip inventoryToggleAudio;
+    [SerializeField] private ParticleSystem collectionEffect;
 
     // How long the player takes to breathe after they move 
     public float delay;
@@ -31,20 +33,40 @@ public class Player : MonoBehaviour {
     // How long the player takes to move from square to square 
     public float moveDelay;
 
-    // The absolute speed multiplier for the player 
-    public float speedMultiplier = 1.0f;
-
     // The player health and stamina 
-    public int health = 100;
-    public int stamina = 100;
+    public float health = 100.0f;
+    public float stamina = 100.0f;
+
+    // Stamina per second when regaining or sprinting 
+    // and stamina speed multiplier 
+    public float staminaRateUp;
+    public float staminaRateDown;
+    public float staminaSpeedMultiplier;
+
+    // Settings for postprocessor bloom effect 
+    public float bloomWalking;
+    public float bloomSprinting;
+    public float bloomAdjustRate;
+
+    // Health-related configurations 
+    public float playerHealthLossDelay;
+    public float snakeBiteDamage;
+    public float nonBackgroundDamage;
+
+    // Camera smoothing 
+    public float playerCameraAdjustRate;
     
     // Private variables 
+    private float playerHealthLossTimer;
+    private bool healthLossFrame;
     private bool moving;
     private float delayTimer;
     private float moveDelayTimer;
     private Vector3 dir;
     private Vector3 origPos;
     private Vector3 destPos;
+    private bool sprinting;
+    private GoldDoor[] goldDoors;
 
     // Gold collected 
     public int goldCollected = 0;
@@ -63,19 +85,33 @@ public class Player : MonoBehaviour {
         moving = false;
         delayTimer = delay;
         dir = new Vector3(1.0f, 0.0f, 0.0f);
+        playerHealthLossTimer = playerHealthLossDelay;
+
+        goldDoors = new GoldDoor[goldDoorFolder.childCount];
+        for (int i = 0; i != goldDoors.Length; ++i) {
+            goldDoors[i] = goldDoorFolder.GetChild(i).GetComponent<GoldDoor>();
+        }
     }
 
-    // Is this cell position blocked by a snake or wall tile?
+    // Is this cell position blocked? A cell position can be blocked by:
+    //    - a snake tile 
+    //    - a wall tile 
+    //    - an unopened golden door 
     public bool isBlocked(Vector3Int pos) {
         for (int i = 0; i != snakes.transform.childCount; ++i)
             if (snakes.transform.GetChild(i).GetComponent<Tilemap>().HasTile(pos))
                 return true;
+        for (int i = 0; i != goldDoors.Length; ++i) {
+            GoldDoor goldDoor = goldDoors[i];
+            if (!goldDoor.Opened() && goldDoor.tilemap.HasTile(pos))
+                return true;
+        }
         return walls.HasTile(pos);
     }
 
     // When you collect an item, what happens?
     //  (do not deal with deleting item)
-    private void CollectItem(Item item) {
+    private void CollectItem(Item item, Vector3Int gridPos) {
         // If the player has an unused inventory slot, put the 
         // collected item tag there 
         int i = 0;
@@ -94,6 +130,12 @@ public class Player : MonoBehaviour {
         
         // Play item sound 
         sfxPlayer.Play(itemCollectionAudio);
+
+        // Make item collection effect 
+        Vector3 pos = grid.CellToWorld(gridPos) + grid.cellSize / 2.0f;
+        ParticleSystem.MainModule settings = collectionEffect.main;
+        settings.startColor = new ParticleSystem.MinMaxGradient(item.collectColor);
+        Instantiate(collectionEffect, pos, Quaternion.identity);
     }
 
     // Use the current item selected, if any 
@@ -117,7 +159,7 @@ public class Player : MonoBehaviour {
 
     // Use a speedup item 
     public void UseSpeedup() {
-        
+        stamina = 150.0f;
     }
 
     // Use a cookie item 
@@ -133,6 +175,14 @@ public class Player : MonoBehaviour {
         SceneManager.LoadScene("Assets/Scenes/YouWonScreen.unity");
     }
 
+    // Lose health if health loss frame 
+    private void LoseHealthIfPossible(float lost) {
+        if (healthLossFrame) {
+            sfxPlayer.Play(healthLossAudio);
+            health -= lost;
+        }
+    }
+
     // Runs every frame 
     void Update() {
         //> Player input key mapping 
@@ -142,8 +192,10 @@ public class Player : MonoBehaviour {
         bool D = Input.GetKey("d");
         bool ANY = W || A || S || D;
         
-        bool E = Input.GetKey("e");
+        bool E = Input.GetKeyDown("e");
         bool SPACE = Input.GetKeyDown("space");
+
+        bool SHIFT = Input.GetKey("left shift") || Input.GetKey("right shift");
 
         //> Get player input and adjust direction based on that, if the 
         //> player is not moving 
@@ -159,8 +211,42 @@ public class Player : MonoBehaviour {
             }
         }
 
+        //> If the stamina key [SHIFT] is being pressed...
+        if (SHIFT) {
+            //> If there is stamina left, use it up and sprint, but if 
+            //> there is not, do not sprint.
+            if (stamina > 0.0f) {
+                stamina -= Time.deltaTime * staminaRateDown;
+                if (stamina < 0.0f) {
+                    stamina = 0.0f;
+                }
+                sprinting = true;
+            } else {
+                sprinting = false;
+            }
+        } else {
+            //> If the player is not trying to move, and the player does not have 
+            //> full stamina, gradually increase stamina to full by the 
+            //> stamina growth rate. Do not sprint.
+            if (!ANY && stamina < 100.0f) {
+                stamina += Time.deltaTime * staminaRateUp;
+                if (stamina > 100.0f) {
+                    stamina = 100.0f;
+                }
+            }
+            sprinting = false;
+        }
+
+        //> Is the current frame a health loss frame?
+        healthLossFrame = false;
+        playerHealthLossTimer -= Time.deltaTime;
+        if (playerHealthLossTimer < 0.0f) {
+            playerHealthLossTimer = playerHealthLossDelay;
+            healthLossFrame = true;
+        }
+
         //> If the player has no health left, commence fail sequence 
-        if (health < 1) {
+        if (health <= 0.0f) {
             Ouch();
             return;
         }
@@ -174,13 +260,11 @@ public class Player : MonoBehaviour {
                 YouWon();
             
             for (int i = 0; i != snakes.transform.childCount; ++i) {
-                Snake snake = snakes.transform.GetChild(i).GetComponent<Snake>();
-                Vector3Int snake_pos = snake.Head();
+                Tilemap snakeTM = snakes.transform.GetChild(i).GetComponent<Tilemap>();
 
-                //> Ouch 
-                if (snake_pos == pos) {
-                    health -= 55;
-                    return;
+                //> Snake bite, ouch :(
+                if (snakeTM.HasTile(pos)) {
+                    LoseHealthIfPossible(snakeBiteDamage);
                 }
             }
         }
@@ -199,8 +283,8 @@ public class Player : MonoBehaviour {
 
         //> If the updated delay timer is out, the player is not moving,
         //> and the player pressed a key after the delay timer went off,
-        //> then enter the move sequence 
-        delayTimer -= Time.deltaTime * speedMultiplier;
+        //> then enter the move sequence. Adjust for sprinting.
+        delayTimer -= Time.deltaTime * (sprinting ? staminaSpeedMultiplier : 1.0f);
         if (!moving && delayTimer < 0.0f && ANY) {
             //> Get the tile position of where we are going to 
             Vector3 nextPos = transform.position +
@@ -216,10 +300,13 @@ public class Player : MonoBehaviour {
             }
         }
 
+        //> Get current player position as a tile position 
+        Vector3Int gridPos = grid.WorldToCell(transform.position);
+
         //> If the player is moving, let the move delay timer count down,
-        //> and lerp the player position 
+        //> and lerp the player position. Adjust for sprinting.
         if (moving) {
-            moveDelayTimer -= Time.deltaTime * speedMultiplier;
+            moveDelayTimer -= Time.deltaTime * (sprinting ? staminaSpeedMultiplier : 1.0f);
             float dt = 1.0f - (moveDelayTimer / moveDelay);
             transform.position = Vector3.Lerp(origPos, destPos, dt);
 
@@ -230,12 +317,10 @@ public class Player : MonoBehaviour {
                 moving = false;
                 delayTimer = delay;
 
-                Vector3Int gridPos = grid.WorldToCell(transform.position);
-
                 //> Check if you are stepping on an item 
                 TileBase itemTile = items.GetTile(gridPos);
                 if (itemTile != null && itemTile is Item) {
-                    CollectItem(itemTile as Item);
+                    CollectItem(itemTile as Item, gridPos);
                     items.SetTile(gridPos, null);
                 }
 
@@ -245,13 +330,27 @@ public class Player : MonoBehaviour {
                     gold.CollectAt(gridPos);
                     ++goldCollected;
                 }
-
-                //> Check if you are on a background tile, and if not, ouch 
-                if (!background.HasTile(gridPos)) {
-                    Ouch();
-                    return;
-                }
             }
         }
+
+        //> Check if you are on a background tile, and if not, ouch 
+        if (!background.HasTile(gridPos)) {
+            LoseHealthIfPossible(nonBackgroundDamage);
+        }
+
+        //> If player is sprinting, amplify postprocessor bloom effect,
+        //> but if not, unamplify it. Do everything smoothly.
+        VolumeProfile profile = volume.sharedProfile;
+        volume.profile.TryGet(out postProcessorBloom);
+        postProcessorBloom.intensity.value *= 1.0f - bloomAdjustRate * Time.deltaTime;
+        postProcessorBloom.intensity.value +=
+            bloomAdjustRate * Time.deltaTime *
+                (sprinting ? bloomSprinting : bloomWalking);
+        
+        //> Adjust player camera position. Do everything smoothly.
+        float oldZ = playerCamera.transform.position.z;
+        playerCamera.transform.position *= 1.0f - playerCameraAdjustRate * Time.deltaTime;
+        playerCamera.transform.position += playerCameraAdjustRate * Time.deltaTime * transform.position;
+        playerCamera.transform.position = new Vector3(playerCamera.transform.position.x, playerCamera.transform.position.y, oldZ);
     }
 }

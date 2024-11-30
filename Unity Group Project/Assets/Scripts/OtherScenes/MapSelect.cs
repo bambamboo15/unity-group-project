@@ -5,8 +5,8 @@ using TMPro;
 public class MapSelect : MonoBehaviour {
     [SerializeField] private Transform[] maps;
     [SerializeField] private int selectedIndex;
-    [SerializeField] private Material textUnselected;
-    [SerializeField] private Material textSelected;
+    [SerializeField] private Color textUnselected;
+    [SerializeField] private Color textSelected;
     [SerializeField] private Material borderSelected;
     [SerializeField] private Material borderUnselected;
 
@@ -19,8 +19,10 @@ public class MapSelect : MonoBehaviour {
         TMP_Text name = nameT.GetComponent<TMP_Text>();
         TMP_Text desc = descT.GetComponent<TMP_Text>();
         Image border = borderT.GetComponent<Image>();
-        name.fontSharedMaterial = textSelected;
-        desc.fontSharedMaterial = textSelected;
+        name.overrideColorTags = true;
+        desc.overrideColorTags = true;
+        name.color = textSelected;
+        desc.color = textSelected;
         border.material = borderSelected;
     }
 }

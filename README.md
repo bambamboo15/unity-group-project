@@ -99,6 +99,19 @@ For the **sound effect searcher**, the following is maybe neeeded:
 - **(11/27/24)** Introduced a sound effect player 
 - **(11/27/24)** Added lots of prototype sound effects 
 - **(11/27/24)** Made internal item handling much better 
+- **(11/28/24)** Improved title screen by a lot 
+- **(11/29/24), undocumented end**
+- **(11/29/24)** May not be in chronological order 
+- **(11/29/24)** Made title screen so much better and functional 
+- **(11/29/24)** Added new font and completely redesigned all of the text 
+- **(11/29/24)** Made map look better 
+- **(11/29/24)** Made golden doors fully functional 
+- **(11/29/24)** Gathered more sound effects 
+- **(11/29/24)** Made more designs 
+- **(11/29/24)** Made speedup (now coffee) work and have its intended effect 
+- **(11/29/24)** Added lots of more scripts and added many more features 
+- **(11/29/24)** Added fully working player health and stamina functionality 
+- **(11/29/24)** Fixed many bugs, and so much more 
 - **(OBJECTIVE)** Add mobile support 
 - **(OBJECTIVE)** Export the first version of the game on Google Drive (after building it)
 
