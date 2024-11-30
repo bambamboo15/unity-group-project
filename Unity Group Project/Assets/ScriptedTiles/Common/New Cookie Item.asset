@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: New Cookie Item
   m_EditorClassIdentifier: 
   collectColor: {r: 1, g: 0.6121333, b: 0.27735847, a: 1}
-  sprite: {fileID: 21300000, guid: aec5f324adc5b8a40a2f4a68ae921520, type: 3}
+  sprite: {fileID: 21300000, guid: aee390e148a187841b8785228898b410, type: 3}
   itemName: cookie

@@ -5,23 +5,26 @@ using System;
 
 public class Snake : MonoBehaviour {
     // The player the snake should be directed to.
-    public Player player;
+    [SerializeField] private Player player;
 
     // The grid for layout purposes 
-    public Grid grid;
+    [SerializeField] private Grid grid;
 
     // The snake tiles 
-    public SnakeHeadTile snakeHeadTile;
-    public SnakeBodyTile snakeBodyTile;
+    [SerializeField] private SnakeHeadTile snakeHeadTile;
+    [SerializeField] private SnakeBodyTile snakeBodyTile;
 
     // Other required tilemaps 
-    public Tilemap walls;
+    [SerializeField] private Tilemap walls;
+
+    // All of the cookies 
+    [SerializeField] private Transform cookies;
 
     // When the player collects a gold, how much faster 
     // does the snake get exponentially? That is, how 
     // much does the delay multiply everytime that 
     // happens?
-    public float goldMultiplier = 0.95f;
+    public float goldMultiplier;
 
     // Sound effect player 
     public SFXPlayer sfxPlayer;
@@ -68,6 +71,29 @@ public class Snake : MonoBehaviour {
         moveInterval *= goldMultiplier;
     }
 
+    // What the snake thinks is the optimal cell position to go to. It always 
+    // knows where the player is located, but if there is a cookie somewhere,
+    // it cannot resist it :)
+    public Vector3Int OptimalCellPosition() {
+        if (cookies.childCount != 0) {
+            return gridLayout.WorldToCell(cookies.GetChild(0).position);
+        } else {
+            return gridLayout.WorldToCell(player.transform.position);
+        }
+    }
+
+    // From the snake head position, handle what happens when the snake is on 
+    // a cookie.
+    public void HandleCookie() {
+        if (cookies.childCount != 0) {
+            Transform cookie = cookies.GetChild(0);
+            if (Head() == gridLayout.WorldToCell(cookie.position)) {
+                Destroy(cookie.gameObject);
+                sfxPlayer.Play(cookieAudio, Head());
+            }
+        }
+    }
+
     // Calculate the "best direction" of the snake. It is what the snake 
     // thinks is the optimal direction to take towards the player. Of course,
     // it will not be optimal, but we do not want the game to be impossible.
@@ -75,7 +101,7 @@ public class Snake : MonoBehaviour {
     // If the snake is somehow "trapped", it will return a (0, 0, 0)
     public Vector3Int CalculateBestDirection() {
         Vector3Int head = Head(), output = Vector3Int.zero,
-                   playerPos = gridLayout.WorldToCell(player.transform.position);
+                   playerPos = OptimalCellPosition();
         float minDistance = float.PositiveInfinity;
 
         if (!isBlocked(head + Vector3Int.up)) {
@@ -146,7 +172,9 @@ public class Snake : MonoBehaviour {
             body.RemoveFirst();
             stuck = false;
             
-            sfxPlayer.Play(moveAudio, head);
+            sfxPlayer.Play(moveAudio, Head());
+
+            HandleCookie();
         }
     }
 

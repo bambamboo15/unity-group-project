@@ -59,6 +59,6 @@ public class Items : MonoBehaviour {
     }
 
     void Update() {
-        transform.position = new Vector3(0.0f, Mathf.Sin(Time.time * 3.0f) * 0.075f * tilemap.layoutGrid.cellSize.y, 0.0f);
+        transform.position = new Vector3(0.0f, Mathf.Sin(Time.time * 4.0f) * 0.075f * tilemap.layoutGrid.cellSize.y, 0.0f);
     }
 }

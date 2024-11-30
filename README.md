@@ -107,11 +107,12 @@ For the **sound effect searcher**, the following is maybe neeeded:
 - **(11/29/24)** Made map look better 
 - **(11/29/24)** Made golden doors fully functional 
 - **(11/29/24)** Gathered more sound effects 
-- **(11/29/24)** Made more designs 
-- **(11/29/24)** Made speedup (now coffee) work and have its intended effect 
-- **(11/29/24)** Added lots of more scripts and added many more features 
+- **(11/29/24)** Replaced speedup with coffee; made revamped designs for coffee and cookie 
+- **(11/29/24)** Made coffee work and have its intended effect 
+- **(11/29/24)** Added lots of more scripts, many more features, and bugfixes 
 - **(11/29/24)** Added fully working player health and stamina functionality 
-- **(11/29/24)** Fixed many bugs, and so much more 
+- **(11/29/24)** Made snake correctly respond to one cookie or more 
+- **(11/29/24)** Added almost fully working cookie drop functionality 
 - **(OBJECTIVE)** Add mobile support 
 - **(OBJECTIVE)** Export the first version of the game on Google Drive (after building it)
 

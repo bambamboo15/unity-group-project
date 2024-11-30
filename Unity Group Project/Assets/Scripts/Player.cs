@@ -26,6 +26,8 @@ public class Player : MonoBehaviour {
     [SerializeField] private AudioClip itemCollectionAudio;
     [SerializeField] private AudioClip inventoryToggleAudio;
     [SerializeField] private ParticleSystem collectionEffect;
+    [SerializeField] private GameObject cookiePrefab;
+    [SerializeField] private Transform cookieFolder;
 
     // How long the player takes to breathe after they move 
     public float delay;
@@ -152,7 +154,8 @@ public class Player : MonoBehaviour {
     // This will call a Use{ItemName} function that the player 
     // has to implement. Such functions must be public, and 
     // must assume that the position of an item is located on 
-    // the tile that the player is on.
+    // the tile that the player is on. You can also assume that 
+    // the player must be on the center of a tile.
     private void UseItem(ItemTag tag) {
         tag.itemInterface.Function(this);
     }
@@ -163,7 +166,10 @@ public class Player : MonoBehaviour {
     }
 
     // Use a cookie item 
-    public void UseCookie() {}
+    public void UseCookie() {
+        GameObject cookieObject = Instantiate(cookiePrefab, transform.position, Quaternion.identity);
+        cookieObject.transform.SetParent(cookieFolder);
+    }
 
     // Ouch 
     private void Ouch() {
