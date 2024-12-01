@@ -28,7 +28,8 @@ public class MenuScreenManager : MonoBehaviour {
     
     void Update() {
         if (!selectionApplied) {
-            bool SPACE = Input.GetKeyDown("space");
+            bool UP = Input.GetKeyDown("up");
+            bool DOWN = Input.GetKeyDown("down");
             bool ENTER = Input.GetKeyDown("enter");
             bool RETURN = Input.GetKeyDown("return");
 
@@ -38,10 +39,16 @@ public class MenuScreenManager : MonoBehaviour {
             text.color = textSelected;
 
             if (ENTER || RETURN) {
-                sceneToLoad = option.sceneToLoad;
-                selectionApplied = true;
-                sfxPlayer.Play(selectAudio);
-            } else if (SPACE) {
+                if (option.optionActive) {
+                    sceneToLoad = option.sceneToLoad;
+                    selectionApplied = true;
+                    sfxPlayer.Play(selectAudio);
+                }
+            } else if (UP) {
+                index = (index - 1 + options.Length) % options.Length;
+                text.color = textUnselected;
+                sfxPlayer.Play(toggleAudio);
+            } else if (DOWN) {
                 index = (index + 1) % options.Length;
                 text.color = textUnselected;
                 sfxPlayer.Play(toggleAudio);

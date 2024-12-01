@@ -113,6 +113,10 @@ For the **sound effect searcher**, the following is maybe neeeded:
 - **(11/29/24)** Added fully working player health and stamina functionality 
 - **(11/29/24)** Made snake correctly respond to one cookie or more 
 - **(11/29/24)** Added almost fully working cookie drop functionality 
+- **(11/30/24)** Added unoptimized prototype A* pathfinding 
+- **(11/30/24)** Temporarily fixed some bugs for snake pathfinding, but not removed them 
+- **(12/01/24), upper bound** Added a loading screen 
+- **(12/01/24)** Redesigned title screen 
 - **(OBJECTIVE)** Add mobile support 
 - **(OBJECTIVE)** Export the first version of the game on Google Drive (after building it)
 

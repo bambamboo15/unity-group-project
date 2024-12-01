@@ -53,14 +53,14 @@ TagManager:
   - name: Item
     uniqueID: 2856334367
     locked: 0
+  - name: Exit
+    uniqueID: 3399291477
+    locked: 0
   - name: Player
     uniqueID: 1536659291
     locked: 0
   - name: Snake
     uniqueID: 1751925241
-    locked: 0
-  - name: Exit
-    uniqueID: 3399291477
     locked: 0
   - name: GoldDoor
     uniqueID: 1576501371

@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class SFXPlayer : MonoBehaviour {
     [SerializeField] private Player player;
     [SerializeField] private GridLayout gridLayout;

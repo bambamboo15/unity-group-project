@@ -94,48 +94,128 @@ public class Snake : MonoBehaviour {
         }
     }
 
+    // For A*, calculates the distance given two nodes 
+    public int AStarDistance(Vector3Int node0, Vector3Int node1) {
+        int dx = node0.x - node1.x,
+            dy = node0.y - node1.y;
+        if (dx < 0) dx = -dx;
+        if (dy < 0) dy = -dy;
+        return dx + dy;
+    }
+
+    // For A*, calculates the g-score given root node 
+    public int AStarGScore(Vector3Int node, Vector3Int rootNode) {
+        return AStarDistance(node, rootNode);
+    }
+
+    // For A*, calculates the h-score given goal node 
+    public int AStarHScore(Vector3Int node, Vector3Int goalNode) {
+        return AStarDistance(node, goalNode);
+    }
+
+    // For A*, calculates the f-score given root and goal nodes 
+    public int AStarFScore(Vector3Int node, Vector3Int rootNode, Vector3Int goalNode) {
+        return AStarGScore(node, rootNode) + AStarHScore(node, goalNode);
+    }
+
+    // All accessible neighbors of a node, through a callback 
+    public void AllNeighbors(Vector3Int node, Action<Vector3Int> callback) {
+        if (!isBlocked(node + Vector3Int.left))
+            callback(node + Vector3Int.left);
+        if (!isBlocked(node + Vector3Int.right))
+            callback(node + Vector3Int.right);
+        if (!isBlocked(node + Vector3Int.up))
+            callback(node + Vector3Int.up);
+        if (!isBlocked(node + Vector3Int.down))
+            callback(node + Vector3Int.down);
+    }
+
     // Calculate the "best direction" of the snake. It is what the snake 
     // thinks is the optimal direction to take towards the player. Of course,
     // it will not be optimal, but we do not want the game to be impossible.
     //
+    // The A* pathfinding algorithm is now used. The reason why this is called 
+    // "nonfailure" is because it does not decide what to do when it fails.
+    //
     // If the snake is somehow "trapped", it will return a (0, 0, 0)
+    public Vector3Int CalculateBestDirectionNonFailure() {
+        //> Initialization (from Wikipedia)
+        Vector3Int root = Head(), goal = OptimalCellPosition();
+        HashSet<Vector3Int> openSet = new HashSet<Vector3Int>();
+        openSet.Add(root);
+        Dictionary<Vector3Int, Vector3Int> cameFrom = new Dictionary<Vector3Int, Vector3Int>();
+        Dictionary<Vector3Int, int> gScore = new Dictionary<Vector3Int, int>(),
+                                    fScore = new Dictionary<Vector3Int, int>();
+        gScore[root] = 0;
+        fScore[root] = AStarHScore(root, goal);
+
+        //> Nonempty loop 
+        while (openSet.Count != 0) {
+            //> Node with lowest f-score 
+            Vector3Int current = Vector3Int.zero;
+            foreach (Vector3Int candidate in openSet) {
+                current = candidate;
+                break;
+            }
+            int currentFScore = fScore[current];
+            foreach (Vector3Int candidate in openSet) {
+                int candidateFScore = fScore[candidate];
+                if (candidateFScore < currentFScore) {
+                    currentFScore = candidateFScore;
+                    current = candidate;
+                }
+            }
+
+            //> We have reached the goal :D
+            //>
+            //> Reconstruct the path from end to start.
+            //> If there is a glitch, an infinite loop 
+            //> may occur, crashing the game.
+            //>
+            //> Just before full path reconstruction,
+            //> we obtain the position just after the 
+            //> head of the snake, subtract it by the 
+            //> head of the snake, and that outputs 
+            //> optimal direction.
+            if (current == goal) {
+                while (true) {
+                    //> If, for some unfortunate reason, the algorithm 
+                    //> glitched somewhere (it does in certain cases),
+                    //> fail :/
+                    if (!cameFrom.ContainsKey(current))
+                        return Vector3Int.zero;
+                    Vector3Int next = cameFrom[current];
+                    if (next == root)
+                        return current - root;
+                    current = next;
+                }
+            }
+
+            //> Remove that current node and start the subloop 
+            openSet.Remove(current);
+            AllNeighbors(current, neighbor => {
+                //> Tenative g-score 
+                int tenativeGScore = gScore[current] + 1; /* distance(current, neighbor) == 1 */
+                if (!gScore.ContainsKey(neighbor) || tenativeGScore < gScore[neighbor]) {
+                    //> "This path to neighbor is better than any 
+                    //> previous one. Record it!"
+                    cameFrom[neighbor] = current;
+                    gScore[neighbor] = tenativeGScore;
+                    fScore[neighbor] = tenativeGScore + AStarHScore(neighbor, goal);
+                    openSet.Add(neighbor); /* contains check not required */
+                }
+            });
+        }
+
+        //> Goal never reached :(
+        return Vector3Int.zero;
+    }
+
+    // Calculate the best direction for the snake. Handle failure cases as well.
     public Vector3Int CalculateBestDirection() {
-        Vector3Int head = Head(), output = Vector3Int.zero,
-                   playerPos = OptimalCellPosition();
-        float minDistance = float.PositiveInfinity;
-
-        if (!isBlocked(head + Vector3Int.up)) {
-            float distance = Vector3Int.Distance(head + Vector3Int.up, playerPos);
-            if (distance < minDistance) {
-                minDistance = distance;
-                output = Vector3Int.up;
-            }
-        }
-
-        if (!isBlocked(head + Vector3Int.down)) {
-            float distance = Vector3Int.Distance(head + Vector3Int.down, playerPos);
-            if (distance < minDistance) {
-                minDistance = distance;
-                output = Vector3Int.down;
-            }
-        }
-
-        if (!isBlocked(head + Vector3Int.left)) {
-            float distance = Vector3Int.Distance(head + Vector3Int.left, playerPos);
-            if (distance < minDistance) {
-                minDistance = distance;
-                output = Vector3Int.left;
-            }
-        }
-
-        if (!isBlocked(head + Vector3Int.right)) {
-            float distance = Vector3Int.Distance(head + Vector3Int.right, playerPos);
-            if (distance < minDistance) {
-                minDistance = distance;
-                output = Vector3Int.right;
-            }
-        }
-
+        Vector3Int output = CalculateBestDirectionNonFailure();
+        if (output == Vector3.zero)
+            AllNeighbors(Head(), neighbor => output = neighbor);
         return output;
     }
 
