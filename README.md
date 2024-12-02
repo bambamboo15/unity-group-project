@@ -117,6 +117,9 @@ For the **sound effect searcher**, the following is maybe neeeded:
 - **(11/30/24)** Temporarily fixed some bugs for snake pathfinding, but not removed them 
 - **(12/01/24), upper bound** Added a loading screen 
 - **(12/01/24)** Redesigned title screen 
+- **(12/01/24)** Made map screen fully function and probably finalized 
+- **(12/01/24)** Made an interesting lose screen 
+- **(12/01/24)** Made an interesting win screen with a questionable strange ending 
 - **(OBJECTIVE)** Add mobile support 
 - **(OBJECTIVE)** Export the first version of the game on Google Drive (after building it)
 

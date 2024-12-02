@@ -42,7 +42,7 @@ public class MenuScreenManager : MonoBehaviour {
                 if (option.optionActive) {
                     sceneToLoad = option.sceneToLoad;
                     selectionApplied = true;
-                    sfxPlayer.Play(selectAudio);
+                    //sfxPlayer.Play(selectAudio);
                 }
             } else if (UP) {
                 index = (index - 1 + options.Length) % options.Length;

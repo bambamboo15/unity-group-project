@@ -6,8 +6,17 @@ public class SFXPlayer : MonoBehaviour {
     [SerializeField] private GridLayout gridLayout;
     private AudioSource audioSource;
 
-    public void Start() {
+    public void Awake() {
         audioSource = GetComponent<AudioSource>();
+    }
+
+    public void AdjustVolume(float volume) {
+        audioSource.volume = volume;
+    }
+
+    public void PlayPermament(AudioClip audioClip) {
+        audioSource.clip = audioClip;
+        audioSource.Play();
     }
 
     public void Play(AudioClip audioClip, float volume = 1.0f) {
