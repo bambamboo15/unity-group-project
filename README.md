@@ -120,6 +120,10 @@ For the **sound effect searcher**, the following is maybe neeeded:
 - **(12/01/24)** Made map screen fully function and probably finalized 
 - **(12/01/24)** Made an interesting lose screen 
 - **(12/01/24)** Made an interesting win screen with a questionable strange ending 
+- **(12/01/24)** Replaced invisibility in favor of water balloon in favor of better gameplay...
+- **(12/01/24)** ...and made a water balloon sprite 
+- **(12/01/24)** Made working water balloon item that does nothing 
+- **(12/01/24)** Almost implemented buggy water balloon (eleven-o-clock edition)
 - **(OBJECTIVE)** Add mobile support 
 - **(OBJECTIVE)** Export the first version of the game on Google Drive (after building it)
 

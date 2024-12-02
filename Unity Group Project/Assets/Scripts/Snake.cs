@@ -14,8 +14,15 @@ public class Snake : MonoBehaviour {
     [SerializeField] private SnakeHeadTile snakeHeadTile;
     [SerializeField] private SnakeBodyTile snakeBodyTile;
 
-    // Other required tilemaps 
+    // Other required tilemaps such as walls 
     [SerializeField] private Tilemap walls;
+
+    // All golden doors 
+    [SerializeField] private Transform goldDoorFolder;
+    private GoldDoor[] goldDoors;
+
+    // All waters 
+    [SerializeField] private Transform waterFolder;
 
     // All of the cookies 
     [SerializeField] private Transform cookies;
@@ -55,6 +62,10 @@ public class Snake : MonoBehaviour {
         tilemap = GetComponent<Tilemap>();
         gridLayout = grid.GetComponent<GridLayout>();
         PreemptivelyFindSnakeBodyAppend();
+
+        goldDoors = new GoldDoor[goldDoorFolder.childCount];
+        for (int i = 0; i != goldDoors.Length; ++i)
+            goldDoors[i] = goldDoorFolder.GetChild(i).GetComponent<GoldDoor>();
     }
 
     // What the snake does every frame 
@@ -63,6 +74,26 @@ public class Snake : MonoBehaviour {
         if (moveIntervalTimer <= 0.0f) {
             moveIntervalTimer = moveInterval;
             Move(CalculateBestDirection());
+        }
+        HandleWater();
+    }
+
+    // Handle water 
+    private void HandleWater() {
+        Vector3Int head = Head(), direction = Vector3Int.zero;
+        for (int i = 0; i != waterFolder.childCount; ++i) {
+            Transform waterT = waterFolder.GetChild(i);
+            Tilemap waterTM = waterT.GetComponent<Tilemap>();
+            Water water = waterT.GetComponent<Water>();
+            if (waterTM.GetTile(head) is not null) {
+                AllNeighbors(head, neighbor => {
+                    if (!isBlockedAllowSnake(neighbor) && !water.cameFrom.Contains(neighbor) && (waterTM.GetTile(neighbor) is null))
+                        direction = neighbor - head;
+                });
+            }
+        }
+        if (direction != Vector3Int.zero) {
+            Move(direction);
         }
     }
 
@@ -84,7 +115,7 @@ public class Snake : MonoBehaviour {
 
     // From the snake head position, handle what happens when the snake is on 
     // a cookie.
-    public void HandleCookie() {
+    private void HandleCookie() {
         if (cookies.childCount != 0) {
             Transform cookie = cookies.GetChild(0);
             if (Head() == gridLayout.WorldToCell(cookie.position)) {
@@ -220,9 +251,23 @@ public class Snake : MonoBehaviour {
     }
 
     // Is the square disallowed from the snake? The only possibilities are:
-    //    - a square such that the player cannot go to 
+    //    - a square such that the player cannot go to (code duplicated)
     public bool isBlocked(Vector3Int pos) {
-        return player.isBlocked(pos);
+        for (int i = 0; i != transform.parent.childCount; ++i)
+            if (transform.parent.GetChild(i).GetComponent<Tilemap>().HasTile(pos))
+                return true;
+        return isBlockedAllowSnake(pos);
+    }
+
+    // Is the square disallowed from the snake, but the snake can go over 
+    // itself?
+    public bool isBlockedAllowSnake(Vector3Int pos) {
+        for (int i = 0; i != goldDoors.Length; ++i) {
+            GoldDoor goldDoor = goldDoors[i];
+            if (!goldDoor.Opened() && goldDoor.tilemap.HasTile(pos))
+                return true;
+        }
+        return walls.HasTile(pos);
     }
 
     // Move the snake in a certain direction!

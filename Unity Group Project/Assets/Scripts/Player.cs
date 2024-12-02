@@ -28,6 +28,8 @@ public class Player : MonoBehaviour {
     [SerializeField] private ParticleSystem collectionEffect;
     [SerializeField] private GameObject cookiePrefab;
     [SerializeField] private Transform cookieFolder;
+    [SerializeField] private GameObject waterPrefab;
+    [SerializeField] private Transform waterFolder;
 
     // How long the player takes to breathe after they move 
     public float delay;
@@ -90,9 +92,8 @@ public class Player : MonoBehaviour {
         playerHealthLossTimer = playerHealthLossDelay;
 
         goldDoors = new GoldDoor[goldDoorFolder.childCount];
-        for (int i = 0; i != goldDoors.Length; ++i) {
+        for (int i = 0; i != goldDoors.Length; ++i)
             goldDoors[i] = goldDoorFolder.GetChild(i).GetComponent<GoldDoor>();
-        }
     }
 
     // Is this cell position blocked? A cell position can be blocked by:
@@ -169,6 +170,16 @@ public class Player : MonoBehaviour {
     public void UseCookie() {
         GameObject cookieObject = Instantiate(cookiePrefab, transform.position, Quaternion.identity);
         cookieObject.transform.SetParent(cookieFolder);
+    }
+
+    // Use a water balloon 
+    public void UseWaterBalloon() {
+        GameObject waterGO = Instantiate(waterPrefab, Vector3.zero, Quaternion.identity);
+        waterGO.transform.SetParent(waterFolder);
+        Water water = waterGO.GetComponent<Water>();
+        water.pos = grid.WorldToCell(transform.position);
+        water.walls = walls;
+        waterGO.SetActive(true);
     }
 
     // Ouch 

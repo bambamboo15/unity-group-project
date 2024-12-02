@@ -67,7 +67,7 @@ public class MapSelectManager : MonoBehaviour {
                 sfxPlayer.Play(toggleAudio);
             } else if (Time.timeSinceLevelLoad > 1.0f && (Input.GetKeyDown("enter") || Input.GetKeyDown("return"))) {
                 sceneToLoad = maps[selectedIndex].GetComponent<MapSelectOption>().sceneToLoad;
-                selectionDelay = 0.5f;
+                selectionDelay = 1.0f;
                 l = true;
             }
 

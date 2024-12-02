@@ -248,8 +248,10 @@ MonoBehaviour:
   snakeHeadTile: {fileID: 11400000, guid: 9934bd6391f3d564db0da4bdc54f6dab, type: 2}
   snakeBodyTile: {fileID: 11400000, guid: aab0a415f21b65b459e50da5a2bbeddf, type: 2}
   walls: {fileID: 637468720}
+  goldDoorFolder: {fileID: 2056621807}
+  waterFolder: {fileID: 1549675207}
   cookies: {fileID: 1649452831}
-  goldMultiplier: 0.99
+  goldMultiplier: 0.985
   sfxPlayer: {fileID: 547452204}
   moveAudio: {fileID: 8300000, guid: 3a46f3508177c644c88a4fe415ca8478, type: 3}
   cookieAudio: {fileID: 8300000, guid: 37939bb7d1846ff49a626313999f0628, type: 3}
@@ -295,7 +297,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1751925241
-  m_SortingLayer: -3
+  m_SortingLayer: -2
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -788,7 +790,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 186892297
-  m_SortingLayer: -9
+  m_SortingLayer: -10
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -9446,7 +9448,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1536659291
-  m_SortingLayer: -4
+  m_SortingLayer: -3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 0d6a22d3ff5c3bb4faf161190c5a24a0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -9505,6 +9507,8 @@ MonoBehaviour:
   collectionEffect: {fileID: 2333564665978907873, guid: 99cb64bcc9c88f74b85e827249627f55, type: 3}
   cookiePrefab: {fileID: 8883780656267147031, guid: 6aebea65894359a4993cbf55282a9cee, type: 3}
   cookieFolder: {fileID: 1649452831}
+  waterPrefab: {fileID: 13145369698953163, guid: f3a24e173608f084abc9cdfb5b1fff8f, type: 3}
+  waterFolder: {fileID: 1549675207}
   delay: 0.3
   moveDelay: 0.35
   health: 100
@@ -11014,6 +11018,37 @@ MonoBehaviour:
   unselectedColor: {r: 0.80392164, g: 0.82745105, b: 0.9960785, a: 1}
   selectedColor: {r: 0.6, g: 0.63529414, b: 0.9960785, a: 1}
   index: 2
+--- !u!1 &1549675206
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1549675207}
+  m_Layer: 0
+  m_Name: Waters
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1549675207
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1549675206}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1925998574}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1571581576
 GameObject:
   m_ObjectHideFlags: 0
@@ -11087,7 +11122,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -895675819
-  m_SortingLayer: -2
+  m_SortingLayer: -4
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -11674,8 +11709,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speedup: {fileID: 11400000, guid: 4a9ab24a29fa7ef4c938308d9c9b28ef, type: 2}
   cookie: {fileID: 11400000, guid: 92a019823b39f1145b90a081df89ee62, type: 2}
-  speedupProb: 0.4
+  waterBalloon: {fileID: 11400000, guid: d3959802528477848be7a715db2e083f, type: 2}
+  speedupProb: 0.2
   cookieProb: 0.2
+  waterBalloonProb: 0.2
 --- !u!1 &1797644581
 GameObject:
   m_ObjectHideFlags: 0
@@ -11804,7 +11841,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1514053089
-  m_SortingLayer: -8
+  m_SortingLayer: -9
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -27085,15 +27122,16 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 905235975}
+  - {fileID: 142956920}
   - {fileID: 1816737384}
   - {fileID: 637468718}
-  - {fileID: 142956920}
   - {fileID: 807180394}
   - {fileID: 1571581577}
   - {fileID: 1708861896}
   - {fileID: 1304513411}
   - {fileID: 2056621807}
   - {fileID: 1649452831}
+  - {fileID: 1549675207}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1948257105

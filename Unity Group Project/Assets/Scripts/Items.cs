@@ -28,10 +28,12 @@ public class Items : MonoBehaviour {
     // Item assets 
     [SerializeField] private Item speedup;
     [SerializeField] private Item cookie;
+    [SerializeField] private Item waterBalloon;
 
     // Item probabilities 
     [SerializeField] private float speedupProb;
     [SerializeField] private float cookieProb;
+    [SerializeField] private float waterBalloonProb;
 
     // Initialize all items 
     void Start() {
@@ -50,6 +52,8 @@ public class Items : MonoBehaviour {
                         tilemap.SetTile(pos, speedup);
                     } else if (number < (accumulator += cookieProb)) {
                         tilemap.SetTile(pos, cookie);
+                    } else if (number < (accumulator += waterBalloonProb)) {
+                        tilemap.SetTile(pos, waterBalloon);
                     } else {
                         tilemap.SetTile(pos, null);
                     }
