@@ -86,9 +86,11 @@ public class MapSelectManager : MonoBehaviour {
             if (Time.timeSinceLevelLoad > 1.0f && Input.GetKeyDown("escape"))
                 l = true;
         } else {
-            if (selectionDelay < 0.0f)
+            if (selectionDelay < 0.0f) {
+                if (sceneToLoad != "MenuScreen")
+                    Destroy(GameObject.Find("MenuScreenSong"));
                 SceneManager.LoadScene(sceneToLoad);
-            else 
+            } else 
                 selectionDelay -= Time.deltaTime;
         }
     }

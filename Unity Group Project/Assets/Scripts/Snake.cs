@@ -87,8 +87,9 @@ public class Snake : MonoBehaviour {
             Water water = waterT.GetComponent<Water>();
             if (waterTM.GetTile(head) is not null) {
                 AllNeighbors(head, neighbor => {
-                    if (!isBlockedAllowSnake(neighbor) && !water.cameFrom.Contains(neighbor) && (waterTM.GetTile(neighbor) is null))
+                    if (!isBlockedAllowSnake(neighbor) && !water.cameFrom.Contains(neighbor) && (waterTM.GetTile(neighbor) is null)) {
                         direction = neighbor - head;
+                    }
                 });
             }
         }
@@ -151,14 +152,10 @@ public class Snake : MonoBehaviour {
 
     // All accessible neighbors of a node, through a callback 
     public void AllNeighbors(Vector3Int node, Action<Vector3Int> callback) {
-        if (!isBlocked(node + Vector3Int.left))
-            callback(node + Vector3Int.left);
-        if (!isBlocked(node + Vector3Int.right))
-            callback(node + Vector3Int.right);
-        if (!isBlocked(node + Vector3Int.up))
-            callback(node + Vector3Int.up);
-        if (!isBlocked(node + Vector3Int.down))
-            callback(node + Vector3Int.down);
+        callback(node + Vector3Int.left);
+        callback(node + Vector3Int.right);
+        callback(node + Vector3Int.up);
+        callback(node + Vector3Int.down);
     }
 
     // Calculate the "best direction" of the snake. It is what the snake 
@@ -225,15 +222,17 @@ public class Snake : MonoBehaviour {
             //> Remove that current node and start the subloop 
             openSet.Remove(current);
             AllNeighbors(current, neighbor => {
-                //> Tenative g-score 
-                int tenativeGScore = gScore[current] + 1; /* distance(current, neighbor) == 1 */
-                if (!gScore.ContainsKey(neighbor) || tenativeGScore < gScore[neighbor]) {
-                    //> "This path to neighbor is better than any 
-                    //> previous one. Record it!"
-                    cameFrom[neighbor] = current;
-                    gScore[neighbor] = tenativeGScore;
-                    fScore[neighbor] = tenativeGScore + AStarHScore(neighbor, goal);
-                    openSet.Add(neighbor); /* contains check not required */
+                if (!isBlocked(neighbor)) {
+                    //> Tenative g-score 
+                    int tenativeGScore = gScore[current] + 1; /* distance(current, neighbor) == 1 */
+                    if (!gScore.ContainsKey(neighbor) || tenativeGScore < gScore[neighbor]) {
+                        //> "This path to neighbor is better than any 
+                        //> previous one. Record it!"
+                        cameFrom[neighbor] = current;
+                        gScore[neighbor] = tenativeGScore;
+                        fScore[neighbor] = tenativeGScore + AStarHScore(neighbor, goal);
+                        openSet.Add(neighbor); /* contains check not required */
+                    }
                 }
             });
         }
@@ -275,6 +274,8 @@ public class Snake : MonoBehaviour {
     // If, somehow, the direction equals the zero vector,
     // the snake will go to its restart length, however,
     // it will get slower.
+    //
+    // There is an extra parameter 
     public void Move(Vector3Int dir) {
         if (dir.Equals(Vector3Int.zero)) {
             for (int length = Length(); length > restartLength; --length) {
@@ -289,9 +290,10 @@ public class Snake : MonoBehaviour {
         } else {
             Vector3Int head = Head(), tail = Tail();
 
+            if (body.FindLast(tail) == body.First)
+                tilemap.SetTile(tail, null);
             tilemap.SetTile(head, snakeBodyTile);
             tilemap.SetTile(head + dir, snakeHeadTile);
-            tilemap.SetTile(tail, null);
 
             body.AddLast(head + dir);
             body.RemoveFirst();
@@ -306,6 +308,11 @@ public class Snake : MonoBehaviour {
     // Get the tail of the snake 
     public Vector3Int Tail() {
         return body.First.Value;
+    }
+
+    // Get the previous node from the head of the snake 
+    public Vector3Int PrevHead() {
+        return body.Last.Previous.Value;
     }
     
     // Get the head of the snake 

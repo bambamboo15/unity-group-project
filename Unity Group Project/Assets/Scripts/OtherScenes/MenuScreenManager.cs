@@ -24,6 +24,14 @@ public class MenuScreenManager : MonoBehaviour {
         index = 0;
         selectionApplied = false;
         sceneAlreadyLoaded = false;
+
+        GameObject go = GameObject.Find("MenuScreenSongTemporary");
+        if (GameObject.Find("MenuScreenSong") is null) {
+            go.name = "MenuScreenSong";
+            DontDestroyOnLoad(go);
+        } else {
+            Destroy(go);
+        }
     }
     
     void Update() {

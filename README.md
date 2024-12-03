@@ -124,6 +124,12 @@ For the **sound effect searcher**, the following is maybe neeeded:
 - **(12/01/24)** ...and made a water balloon sprite 
 - **(12/01/24)** Made working water balloon item that does nothing 
 - **(12/01/24)** Almost implemented buggy water balloon (eleven-o-clock edition)
+- **(12/02/24)** Started working on final presentation 
+- **(12/03/24)** Implemented camera shake when health lost 
+- **(12/03/24)** Fixed water balloon bug 
+- **(12/03/24)** Added gold counter effect when all gold collected 
+- **(12/03/24), sound designer** Made multiple menu screen song candidates 
+- **(12/03/24)** Integrated one menu screen song candidate of choice into the game 
 - **(OBJECTIVE)** Add mobile support 
 - **(OBJECTIVE)** Export the first version of the game on Google Drive (after building it)
 

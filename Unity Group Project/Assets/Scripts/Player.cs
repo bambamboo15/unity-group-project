@@ -19,7 +19,7 @@ public class Player : MonoBehaviour {
     [SerializeField] private Camera playerCamera;
     [SerializeField] private Canvas canvas;
     [SerializeField] private Grid grid;
-    [SerializeField] private Volume volume;
+                      public Volume volume;
     [SerializeField] private Items itemManager;
     [SerializeField] private SFXPlayer sfxPlayer;
     [SerializeField] private AudioClip healthLossAudio;
@@ -57,8 +57,10 @@ public class Player : MonoBehaviour {
     public float snakeBiteDamage;
     public float nonBackgroundDamage;
 
-    // Camera smoothing 
+    // Camera smoothing and shaking 
     public float playerCameraAdjustRate;
+    public float healthLossCameraShakeMultiplier;
+    public float healthLossCameraSteadyRate;
     
     // Private variables 
     private float playerHealthLossTimer;
@@ -71,6 +73,9 @@ public class Player : MonoBehaviour {
     private Vector3 destPos;
     private bool sprinting;
     private GoldDoor[] goldDoors;
+    private float playerCameraShake = 0.0f;
+    private float playerCameraShakeMultiplier = 0.0f;
+    private float playerCameraSteadyRate = 1.0f;
 
     // Gold collected 
     public int goldCollected = 0;
@@ -197,6 +202,9 @@ public class Player : MonoBehaviour {
         if (healthLossFrame) {
             sfxPlayer.Play(healthLossAudio);
             health -= lost;
+            playerCameraShake = 1.0f;
+            playerCameraShakeMultiplier = healthLossCameraShakeMultiplier;
+            playerCameraSteadyRate = healthLossCameraSteadyRate;
         }
     }
 
@@ -369,5 +377,12 @@ public class Player : MonoBehaviour {
         playerCamera.transform.position *= 1.0f - playerCameraAdjustRate * Time.deltaTime;
         playerCamera.transform.position += playerCameraAdjustRate * Time.deltaTime * transform.position;
         playerCamera.transform.position = new Vector3(playerCamera.transform.position.x, playerCamera.transform.position.y, oldZ);
+
+        //> Shake 
+        playerCameraShake -= playerCameraSteadyRate * Time.deltaTime;
+        if (playerCameraShake < 0.0f) playerCameraShake = 0.0f;
+        float theta = Random.Range(0.0f, 2.0f * Mathf.PI);
+        float shake = playerCameraShake * playerCameraShakeMultiplier;
+        playerCamera.transform.position += new Vector3(Mathf.Cos(theta) * shake, Mathf.Sin(theta) * shake, 0.0f);
     }
 }
