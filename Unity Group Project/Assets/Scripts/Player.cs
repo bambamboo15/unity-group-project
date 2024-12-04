@@ -16,7 +16,7 @@ public class Player : MonoBehaviour {
     [SerializeField] private Tilemap items;
     [SerializeField] private Transform goldDoorFolder;
     [SerializeField] private Gold gold;
-    [SerializeField] private Camera playerCamera;
+                      public Camera playerCamera;
     [SerializeField] private Canvas canvas;
     [SerializeField] private Grid grid;
                       public Volume volume;
@@ -384,5 +384,8 @@ public class Player : MonoBehaviour {
         float theta = Random.Range(0.0f, 2.0f * Mathf.PI);
         float shake = playerCameraShake * playerCameraShakeMultiplier;
         playerCamera.transform.position += new Vector3(Mathf.Cos(theta) * shake, Mathf.Sin(theta) * shake, 0.0f);
+
+        //> Adjust canvas size with camera size 
+        
     }
 }

@@ -94,7 +94,7 @@ public class Snake : MonoBehaviour {
             }
         }
         if (direction != Vector3Int.zero) {
-            Move(direction);
+            Move(direction, false);
         }
     }
 
@@ -276,7 +276,7 @@ public class Snake : MonoBehaviour {
     // it will get slower.
     //
     // There is an extra parameter 
-    public void Move(Vector3Int dir) {
+    public void Move(Vector3Int dir, bool decreaseLength = true) {
         if (dir.Equals(Vector3Int.zero)) {
             for (int length = Length(); length > restartLength; --length) {
                 Vector3Int tail = Tail();
@@ -290,13 +290,14 @@ public class Snake : MonoBehaviour {
         } else {
             Vector3Int head = Head(), tail = Tail();
 
-            if (body.FindLast(tail) == body.First)
+            if (decreaseLength && body.FindLast(tail) == body.First)
                 tilemap.SetTile(tail, null);
             tilemap.SetTile(head, snakeBodyTile);
             tilemap.SetTile(head + dir, snakeHeadTile);
 
+            if (decreaseLength)
+                body.RemoveFirst();
             body.AddLast(head + dir);
-            body.RemoveFirst();
             stuck = false;
             
             sfxPlayer.Play(moveAudio, Head());

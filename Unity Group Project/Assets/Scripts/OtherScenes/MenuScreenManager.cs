@@ -9,6 +9,7 @@ public class MenuScreenManager : MonoBehaviour {
     [SerializeField] private Color textSelected;
     [SerializeField] private Color textUnselected;
     [SerializeField] private SFXPlayer sfxPlayer;
+    [SerializeField] private AudioClip unallowedAudio;
     [SerializeField] private AudioClip toggleAudio;
     [SerializeField] private AudioClip selectAudio;
     [SerializeField] private float selectionDelay;
@@ -50,7 +51,8 @@ public class MenuScreenManager : MonoBehaviour {
                 if (option.optionActive) {
                     sceneToLoad = option.sceneToLoad;
                     selectionApplied = true;
-                    //sfxPlayer.Play(selectAudio);
+                } else {
+                    sfxPlayer.Play(unallowedAudio);
                 }
             } else if (UP) {
                 index = (index - 1 + options.Length) % options.Length;

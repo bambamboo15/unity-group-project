@@ -164,7 +164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waterPrefab: {fileID: 11400000, guid: c9f3e083645e7b04cb7edda5ea344fa9, type: 2}
-  delay: 0.2
-  steps: 7
+  delay: 0.3
+  steps: 9
   walls: {fileID: 0}
   pos: {x: 0, y: 0, z: 0}

@@ -418,8 +418,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72b009bd7075515458436f54497ca233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneToLoad: 
-  optionActive: 0
+  sceneToLoad: Tutorial
+  optionActive: 1
 --- !u!1 &273631201
 GameObject:
   m_ObjectHideFlags: 0
@@ -474,6 +474,7 @@ MonoBehaviour:
   textSelected: {r: 1, g: 0.8627451, b: 0, a: 1}
   textUnselected: {r: 1, g: 1, b: 1, a: 1}
   sfxPlayer: {fileID: 1055992640}
+  unallowedAudio: {fileID: 8300000, guid: 9f80cd2bce5f62b4f829c6ff693a6c61, type: 3}
   toggleAudio: {fileID: 8300000, guid: 7e034ffb09b5e584c9f06bd37dc24e24, type: 3}
   selectAudio: {fileID: 8300000, guid: 5db30000bb7dcf541bac4c3a41c1b4ad, type: 3}
   selectionDelay: 0.5
@@ -864,7 +865,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 0ac7985501908854d824f21df9bec57d, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.25
+  m_Volume: 0.4
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -1912,8 +1913,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 855638015
+  m_fontColor: {r: 1, g: 1, b: 1, a: 0.19607843}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

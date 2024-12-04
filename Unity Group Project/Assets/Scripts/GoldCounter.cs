@@ -14,6 +14,10 @@ public class GoldCounter : MonoBehaviour {
     // The gold 
     public Gold gold;
 
+    // Audio related variables 
+    public SFXPlayer sfxPlayer;
+    public AudioClip endSequenceAmbience;
+
     // Our text component 
     private TMP_Text textComponent;
 
@@ -43,7 +47,8 @@ public class GoldCounter : MonoBehaviour {
             Color color = textComponent.color;
             color.a = 0.5f;
             textComponent.color = color;
-            if (player.goldCollected == 1) {
+            if (player.goldCollected == gold.goldAmount) {
+                sfxPlayer.PlayPermament(endSequenceAmbience);
                 endSequenceTimer = Time.time;
                 endSequence = true;
             }
@@ -54,17 +59,22 @@ public class GoldCounter : MonoBehaviour {
             textComponent.color = color;
         }
         if (endSequence) {
-            float progress = (Time.time - endSequenceTimer) * 2.0f - 1.0f;
+            float progress = Time.time - endSequenceTimer;
             rectTransform.anchoredPosition = new Vector2(
                 originalTransform.x,
-                originalTransform.y + 20.0f * (progress * progress - 1.0f)
+                originalTransform.y + 10.0f * ((progress * 2.0f - 1.0f) * (progress * 2.0f - 1.0f) - 1.0f)
             );
 
             Vignette postProcessorVignette;
             VolumeProfile profile = player.volume.sharedProfile;
             player.volume.profile.TryGet(out postProcessorVignette);
-            postProcessorVignette.intensity.value *= 1.0f - Time.deltaTime;
-            postProcessorVignette.intensity.value += 0.2f * Time.deltaTime;
+            postProcessorVignette.intensity.value *= 1.0f - 3.0f * Time.deltaTime;
+            postProcessorVignette.intensity.value += 0.2f * 3.0f * Time.deltaTime;
+
+            player.playerCamera.orthographicSize *= 1.0f - 0.5f * Time.deltaTime;
+            player.playerCamera.orthographicSize += 4.5f * 0.5f * Time.deltaTime;
+
+            sfxPlayer.AdjustVolume(Mathf.Clamp(progress / 15.0f, 0.0f, 0.2f));
         }
         textComponent.text = String.Format("{0}/{1}", player.goldCollected, gold.goldAmount);
     }

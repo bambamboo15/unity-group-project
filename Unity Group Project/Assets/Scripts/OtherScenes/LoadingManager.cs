@@ -31,7 +31,7 @@ public class LoadingManager : MonoBehaviour {
             l = true;
             x.Play(m);
         }
-        if (p > 200.0f)
+        if (p > 275.0f)
             SceneManager.LoadScene("MenuScreen");
         b.text = Mathf.Min(100, Mathf.RoundToInt(p)) + "% done loaded";
     }

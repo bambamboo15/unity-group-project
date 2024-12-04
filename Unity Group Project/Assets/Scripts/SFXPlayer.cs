@@ -24,7 +24,7 @@ public class SFXPlayer : MonoBehaviour {
     }
 
     public void Play(AudioClip audioClip, Vector3 pos, float volume = 1.0f) {
-        Play(audioClip, volume / (Vector3.Distance(player.transform.position, pos) * 0.5f + 1.0f));
+        Play(audioClip, volume / (Vector3.Distance(player.transform.position, pos) * 0.5f + 1.2f));
     }
 
     public void Play(AudioClip audioClip, Vector3Int pos, float volume = 1.0f) {
