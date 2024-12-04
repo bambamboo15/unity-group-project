@@ -173,7 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54bbae7bc70dc4b4db651c9075737cac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneToLoad: 
+  sceneToLoad: TheCave
 --- !u!1 &230821342
 GameObject:
   m_ObjectHideFlags: 0

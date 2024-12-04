@@ -129,11 +129,12 @@ For the **sound effect searcher**, the following is maybe neeeded:
 - **(12/03/24)** Fixed water balloon bug 
 - **(12/03/24)** Added gold counter effect when all gold collected 
 - **(12/03/24), sound designer** Made multiple menu screen song candidates 
-- **(12/03/24)** Integrated one menu screen song candidate of choice into the game 
+- **(12/03/24)** Integrated one menu screen song candidate of choice 
 - **(12/03/24)** Added menu screen "unallowed" sound effect 
 - **(12/03/24)** Added a tutorial for the game 
 - **(12/03/24)** Added an effect when all gold collected 
 - **(12/03/24)** Adjusted some characteristics 
+- **(12/03/24)** Integrated custom map by playtester as map designer 
 - **(OBJECTIVE)** Export the first version of the game on Google Drive (after building it)
 
 ![alt text](./image.png)
