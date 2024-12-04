@@ -216,6 +216,13 @@ public class Player : MonoBehaviour {
         bool S = Input.GetKey("s");
         bool D = Input.GetKey("d");
         bool ANY = W || A || S || D;
+
+        bool QWERTY = Input.GetKey("q") &&
+                      Input.GetKey("w") &&
+                      Input.GetKey("e") &&
+                      Input.GetKey("r") &&
+                      Input.GetKey("t") &&
+                      Input.GetKey("y");
         
         bool E = Input.GetKeyDown("e");
         bool SPACE = Input.GetKeyDown("space");
@@ -363,6 +370,12 @@ public class Player : MonoBehaviour {
             LoseHealthIfPossible(nonBackgroundDamage);
         }
 
+        //> If you hold down the cheat code, activate cheat mode 
+        if (QWERTY) {
+            moveDelay = 0.1f;
+            delay = 0.1f;
+        }
+
         //> If player is sprinting, amplify postprocessor bloom effect,
         //> but if not, unamplify it. Do everything smoothly.
         VolumeProfile profile = volume.sharedProfile;
@@ -386,6 +399,6 @@ public class Player : MonoBehaviour {
         playerCamera.transform.position += new Vector3(Mathf.Cos(theta) * shake, Mathf.Sin(theta) * shake, 0.0f);
 
         //> Adjust canvas size with camera size 
-        
+
     }
 }

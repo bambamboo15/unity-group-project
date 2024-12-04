@@ -135,6 +135,7 @@ For the **sound effect searcher**, the following is maybe neeeded:
 - **(12/03/24)** Added an effect when all gold collected 
 - **(12/03/24)** Adjusted some characteristics 
 - **(12/03/24)** Integrated custom map by playtester as map designer 
+- **(12/03/24)** Added the QWERTY cheat code 
 - **(OBJECTIVE)** Export the first version of the game on Google Drive (after building it)
 
 ![alt text](./image.png)
