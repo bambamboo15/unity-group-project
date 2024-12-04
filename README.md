@@ -1,7 +1,8 @@
 # Unity Group Project - CPSC 24500
 
 Current game title: **The Great Snake Escape**
-You can play this game here: https://drive.google.com/drive/u/2/folders/17kbOsfnRxNpTotrICLqFp98jklPLAv7Y
+
+https://drive.google.com/drive/u/2/folders/17kbOsfnRxNpTotrICLqFp98jklPLAv7Y
 
 ## Instructions 
 To run this project, first `pull` this repository (or `clone` it if you are doing this for the first time). Then, open Unity Hub, browse to the project folder `unity-group-project/Unity Group Project`, and open it.
