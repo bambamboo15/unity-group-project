@@ -136,6 +136,18 @@ For the **sound effect searcher**, the following is maybe neeeded:
 - **(12/03/24)** Adjusted some characteristics 
 - **(12/03/24)** Integrated custom map by playtester as map designer 
 - **(12/03/24)** Added the QWERTY cheat code 
+- **(12/03/24)** Added snake body memory 
+- **(12/03/24)** Added prototype snake difficulty increase over time 
+- **(12/03/24)** Fixed an unusual crash bug with A* pathfinding 
+- **(12/03/24)** Partially fixed an unusual crash bug with water balloon expansion...
+- **(12/03/24)** ...but make sure not to include any horizontal or vertical gaps...
+- **(12/03/24)** on your map!
+- **(12/03/24)** Fixed an unusual crash bug with snake A* pathfinding failure 
+- **(12/03/24)** Fixed an unusual crash bug snake body memory 
+- **(12/03/24), undocumented end**
+- **(12/04/24)** Fixed some last-minute bugs, presentation time!
+- **(12/04/24)** Distributed the project 
+- **(12/04/24)** Commit everything :)
 - **(OBJECTIVE)** Export the first version of the game on Google Drive (after building it)
 
 ![alt text](./image.png)

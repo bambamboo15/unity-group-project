@@ -44,6 +44,10 @@ public class Snake : MonoBehaviour {
     public float moveInterval;
     public int restartLength;
     public float restartMultiplier;
+    public int maximumLength;
+    public float snakeIncreaseDelay;
+    public float snakeIncreaseSpeedMultiplier;
+    public float snakeIncreaseLengthAdder;
 
     // Snake body data structure. Essentially what this is are all 
     // the tiles of the snake. The last element of this "body" list 
@@ -52,10 +56,12 @@ public class Snake : MonoBehaviour {
     private LinkedList<Vector3Int> body = new LinkedList<Vector3Int>();
 
     // Private variables 
+    private LinkedList<Vector3Int> bodyMemory = new LinkedList<Vector3Int>();
     private GridLayout gridLayout;
     private Tilemap tilemap;
     private float moveIntervalTimer;
     private bool stuck = false;
+    private float snakeIncreaseTimer;
 
     // Initialize the internal data structure based on prepared tiles.
     void Start() {
@@ -66,14 +72,21 @@ public class Snake : MonoBehaviour {
         goldDoors = new GoldDoor[goldDoorFolder.childCount];
         for (int i = 0; i != goldDoors.Length; ++i)
             goldDoors[i] = goldDoorFolder.GetChild(i).GetComponent<GoldDoor>();
+        
+        snakeIncreaseTimer = snakeIncreaseDelay;
     }
 
     // What the snake does every frame 
     void Update() {
         moveIntervalTimer -= Time.deltaTime;
-        if (moveIntervalTimer <= 0.0f) {
+        if (moveIntervalTimer < 0.0f) {
             moveIntervalTimer = moveInterval;
             Move(CalculateBestDirection());
+        }
+        snakeIncreaseTimer -= Time.deltaTime;
+        if (snakeIncreaseTimer < 0.0f) {
+            snakeIncreaseTimer = snakeIncreaseDelay;
+            ApplySnakeIncrease();
         }
         HandleWater();
     }
@@ -95,6 +108,22 @@ public class Snake : MonoBehaviour {
         }
         if (direction != Vector3Int.zero) {
             Move(direction, false);
+        }
+    }
+
+    // Apply snake increase 
+    public void ApplySnakeIncrease() {
+        moveInterval *= snakeIncreaseSpeedMultiplier;
+        LinkedListNode<Vector3Int> a = body.Last, b = bodyMemory.Last;
+        while (a != body.First) {
+            a = a.Previous;
+            b = b.Previous;
+        }
+        for (int i = 0; i != snakeIncreaseLengthAdder && b != bodyMemory.First; ++i) {
+            b = b.Previous;
+            body.AddFirst(b.Value);
+            if (tilemap.GetTile(b.Value) is not SnakeHeadTile)
+                tilemap.SetTile(b.Value, snakeBodyTile);
         }
     }
 
@@ -177,8 +206,10 @@ public class Snake : MonoBehaviour {
         gScore[root] = 0;
         fScore[root] = AStarHScore(root, goal);
 
+        int safetyLimit = 0;
+
         //> Nonempty loop 
-        while (openSet.Count != 0) {
+        while (openSet.Count != 0 && ++safetyLimit < 500) {
             //> Node with lowest f-score 
             Vector3Int current = Vector3Int.zero;
             foreach (Vector3Int candidate in openSet) {
@@ -237,6 +268,9 @@ public class Snake : MonoBehaviour {
             });
         }
 
+        if (safetyLimit >= 500)
+            Debug.Log("FAILURE");
+
         //> Goal never reached :(
         return Vector3Int.zero;
     }
@@ -244,8 +278,10 @@ public class Snake : MonoBehaviour {
     // Calculate the best direction for the snake. Handle failure cases as well.
     public Vector3Int CalculateBestDirection() {
         Vector3Int output = CalculateBestDirectionNonFailure();
-        if (output == Vector3.zero)
-            AllNeighbors(Head(), neighbor => output = neighbor);
+        if (output == Vector3.zero) {
+            Vector3Int head = Head();
+            AllNeighbors(head, neighbor => output = neighbor - head);
+        }
         return output;
     }
 
@@ -280,8 +316,9 @@ public class Snake : MonoBehaviour {
         if (dir.Equals(Vector3Int.zero)) {
             for (int length = Length(); length > restartLength; --length) {
                 Vector3Int tail = Tail();
-                tilemap.SetTile(tail, null);
                 body.RemoveFirst();
+                if (!body.Contains(tail))
+                    tilemap.SetTile(tail, null);
             }
             if (!stuck) {
                 moveInterval *= restartMultiplier;
@@ -290,18 +327,23 @@ public class Snake : MonoBehaviour {
         } else {
             Vector3Int head = Head(), tail = Tail();
 
-            if (decreaseLength && body.FindLast(tail) == body.First)
+            bool calculatedDecreaseLength = decreaseLength || (body.Count >= maximumLength);
+            
+            if (calculatedDecreaseLength && body.FindLast(tail) == body.First)
                 tilemap.SetTile(tail, null);
             tilemap.SetTile(head, snakeBodyTile);
             tilemap.SetTile(head + dir, snakeHeadTile);
 
-            if (decreaseLength)
+            if (calculatedDecreaseLength)
                 body.RemoveFirst();
             body.AddLast(head + dir);
-            stuck = false;
             
-            sfxPlayer.Play(moveAudio, Head());
+            bodyMemory.AddLast(head + dir);
+            while (bodyMemory.Count > maximumLength)
+                bodyMemory.RemoveFirst();
 
+            sfxPlayer.Play(moveAudio, Head());
+            stuck = false;
             HandleCookie();
         }
     }
@@ -357,13 +399,15 @@ public class Snake : MonoBehaviour {
     // to crash Unity when undefined behavior happens.
     private void PreemptivelyFindSnakeBodyAppend() {
         Vector3Int pos = PreemptivelyFindSnakeHead();
+        bodyMemory.AddLast(pos);
         body.AddLast(pos);
 
         Vector3Int last = pos;
         int safety_counter = 0;
-        while (safety_counter != 100) {
+        while (safety_counter != maximumLength) {
             Vector3Int up = pos + Vector3Int.up;
             if (last != up && tilemap.HasTile(up)) {
+                bodyMemory.AddFirst(up);
                 body.AddFirst(up);
                 last = pos;
                 pos = up;
@@ -372,6 +416,7 @@ public class Snake : MonoBehaviour {
 
             Vector3Int down = pos + Vector3Int.down;
             if (last != down && tilemap.HasTile(down)) {
+                bodyMemory.AddFirst(down);
                 body.AddFirst(down);
                 last = pos;
                 pos = down;
@@ -380,6 +425,7 @@ public class Snake : MonoBehaviour {
 
             Vector3Int left = pos + Vector3Int.left;
             if (last != left && tilemap.HasTile(left)) {
+                bodyMemory.AddFirst(left);
                 body.AddFirst(left);
                 last = pos;
                 pos = left;
@@ -388,6 +434,7 @@ public class Snake : MonoBehaviour {
 
             Vector3Int right = pos + Vector3Int.right;
             if (last != right && tilemap.HasTile(right)) {
+                bodyMemory.AddFirst(right);
                 body.AddFirst(right);
                 last = pos;
                 pos = right;

@@ -8,6 +8,7 @@ public class Water : MonoBehaviour {
     [SerializeField] private TileBase waterPrefab;
     [SerializeField] private float delay;
     [SerializeField] private int steps;
+    [HideInInspector] public Tilemap background;
     [HideInInspector] public Tilemap walls;
     [HideInInspector] public Vector3Int pos;
     public HashSet<Vector3Int> cameFrom = new HashSet<Vector3Int>();
@@ -22,22 +23,26 @@ public class Water : MonoBehaviour {
             tilemap.SetTile(neighbor, waterPrefab));
     }
 
+    public bool isAccessible(Vector3Int node) {
+        return (walls.GetTile(node) is null) && (background.GetTile(node) is not null);
+    }
+
     public void AllNeighbors(Vector3Int node, Action<Vector3Int> callback) {
-        if (walls.GetTile(node + Vector3Int.left) is null)
+        if (isAccessible(node + Vector3Int.left))
             callback(node + Vector3Int.left);
-        if (walls.GetTile(node + Vector3Int.right) is null)
+        if (isAccessible(node + Vector3Int.right))
             callback(node + Vector3Int.right);
-        if (walls.GetTile(node + Vector3Int.up) is null)
+        if (isAccessible(node + Vector3Int.up))
             callback(node + Vector3Int.up);
-        if (walls.GetTile(node + Vector3Int.down) is null)
+        if (isAccessible(node + Vector3Int.down))
             callback(node + Vector3Int.down);
-        if (walls.GetTile(node + Vector3Int.left + Vector3Int.up) is null)
+        if (isAccessible(node + Vector3Int.left + Vector3Int.up))
             callback(node + Vector3Int.left + Vector3Int.up);
-        if (walls.GetTile(node + Vector3Int.right + Vector3Int.up) is null)
+        if (isAccessible(node + Vector3Int.right + Vector3Int.up))
             callback(node + Vector3Int.right + Vector3Int.up);
-        if (walls.GetTile(node + Vector3Int.left + Vector3Int.down) is null)
+        if (isAccessible(node + Vector3Int.left + Vector3Int.down))
             callback(node + Vector3Int.left + Vector3Int.down);
-        if (walls.GetTile(node + Vector3Int.right + Vector3Int.down) is null)
+        if (isAccessible(node + Vector3Int.right + Vector3Int.down))
             callback(node + Vector3Int.right + Vector3Int.down);
     }
 

@@ -183,6 +183,7 @@ public class Player : MonoBehaviour {
         waterGO.transform.SetParent(waterFolder);
         Water water = waterGO.GetComponent<Water>();
         water.pos = grid.WorldToCell(transform.position);
+        water.background = background;
         water.walls = walls;
         waterGO.SetActive(true);
     }
@@ -260,7 +261,7 @@ public class Player : MonoBehaviour {
             //> If the player is not trying to move, and the player does not have 
             //> full stamina, gradually increase stamina to full by the 
             //> stamina growth rate. Do not sprint.
-            if (!ANY && stamina < 100.0f) {
+            if ((!ANY && !moving) && stamina < 100.0f) {
                 stamina += Time.deltaTime * staminaRateUp;
                 if (stamina > 100.0f) {
                     stamina = 100.0f;

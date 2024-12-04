@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a10a4381d9cb3d94d9a3e5eb8d192fd7, type: 3}
+  m_Name: New Invisible Wall Tile
+  m_EditorClassIdentifier: 
+  editorSprite: {fileID: 21300000, guid: 518d1695330553541bb35864aff65c83, type: 3}
+  runtimeSprite: {fileID: 21300000, guid: 518d1695330553541bb35864aff65c83, type: 3}
